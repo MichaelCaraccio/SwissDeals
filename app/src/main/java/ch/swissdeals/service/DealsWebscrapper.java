@@ -50,12 +50,12 @@ public class DealsWebscrapper {
         for (DealParser d : this.providerParser) {
             JSONObject jDeal = new JSONObject();
 
-            jDeal.put("title", webscrape(d.getTitleXPath(), d.getTitleRegex()));
-            jDeal.put("description", webscrape(d.getDescriptionXPath(), d.getDescriptionRegex()));
-            jDeal.put("image_url", webscrape(d.getImageXPath(), d.getImageRegex()));
-            jDeal.put("price", tryParsePrice(webscrape(d.getPriceXPath(), d.getPriceRegex())));
-            jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceXPath(), d.getOldPriceRegex())));
-            jDeal.put("link", webscrape(d.getLinkXPath(), d.getLinkRegex()));
+            jDeal.put("title", webscrape(d.getTitleRegex()));
+            jDeal.put("description", webscrape(d.getDescriptionRegex()));
+            jDeal.put("image_url", webscrape(d.getImageRegex()));
+            jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex())));
+            jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex())));
+            jDeal.put("link", webscrape(d.getLinkRegex()));
 
             jDealsArray.put(jDeal);
         }
@@ -75,7 +75,7 @@ public class DealsWebscrapper {
         Log.d(TAG, "raw: " + htmlBody);
     }
 
-    private String webscrape(String xpath, String regex) {
+    private String webscrape(String regex) {
         String result = null;
 
         Log.d(TAG, "regex: " + regex);
@@ -110,9 +110,8 @@ public class DealsWebscrapper {
     private double tryParsePrice(String value) {
         try {
             return Double.parseDouble(value);
-        } catch (NumberFormatException nfe) {
-            return -1;
-        } catch (NullPointerException npe) {
+        } catch (Exception e) {
+            Log.w(TAG, e.toString());
             return -1;
         }
     }

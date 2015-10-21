@@ -20,24 +20,12 @@ public class ProviderParserFactory {
             DealParser dealParser = new DealParser();
             JSONObject jDeal = jDeals.getJSONObject(i);
 
-            dealParser.setTitleXPath(getOrNullAttr(jDeal, "title_xpath"));
             dealParser.setTitleRegex(getOrNullAttr(jDeal, "title_regex"));
-
-            dealParser.setDescriptionXPath(getOrNullAttr(jDeal, "description_xpath"));
             dealParser.setDescriptionRegex(getOrNullAttr(jDeal, "description_regex"));
-
-            dealParser.setImageXPath(getOrNullAttr(jDeal, "image_xpath"));
             dealParser.setImageRegex(getOrNullAttr(jDeal, "image_regex"));
-
-            dealParser.setLinkXPath(getOrNullAttr(jDeal, "link_xpath"));
             dealParser.setLinkRegex(getOrNullAttr(jDeal, "link_regex"));
-
-            dealParser.setPriceXPath(getOrNullAttr(jDeal, "price_xpath"));
             dealParser.setPriceRegex(getOrNullAttr(jDeal, "price_regex"));
-
-            dealParser.setOldPriceXPath(getOrNullAttr(jDeal, "oldprice_xpath"));
             dealParser.setOldPriceRegex(getOrNullAttr(jDeal, "oldprice_regex"));
-
             provider.addDeal(dealParser);
         }
         return provider;

@@ -1,60 +1,42 @@
 {
-    "providers": [
+  "providers": [
+    {
+      "name": "QoQa.ch",
+      "logourl": "www.qoqa.ch/favicon.ico",
+      "url": "http://www.qoqa.ch/",
+      "deals": [
         {
-            "name": "QoQa.ch",
-            "logourl": "www.qoqa.ch/favicon.ico",
-            "url": "http://www.qoqa.ch/",
-            "deals": [
-                {
-                    "title_xpath": "/html/head/title",
-                    "title_regex": "<title>QoQa.ch \\| ([\\w ]+)",
-                    "description_xpath": "/html/body/div[4]/div[8]/div/div[4]/div[2]/div[2]",
-                    "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
-                    "image_xpath": "//*[@id=\"showcase_media_DESKTOP_0\"]",
-                    "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
-                    "link_xpath": "/html/head/link[7]",
-                    "link_regex": "<link rel=\"canonical\" href=\"(.+)\"",
-                    "price_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[1]/span[1]",
-                    "price_regex": "qoqa-price\">[\\s]+([-+]?[0-9]*\\.?[0-9]+)",
-                    "oldprice_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[2]/span/div[2]",
-                    "oldprice_regex": "<div class=price>([-+]?[0-9]*\\.?[0-9]+)"
-                }
-            ]
+          "title_regex": "<title>QoQa.ch \\| ([\\w ]+)",
+          "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
+          "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
+          "link_regex": "<link rel=\"canonical\" href=\"(.+)\"",
+          "price_regex": "qoqa-price\">[\\s]+([-+]?[0-9]*\\.?[0-9]+)",
+          "oldprice_regex": "<div class=price>([-+]?[0-9]*\\.?[0-9]+)"
+        }
+      ]
+    },
+    {
+      "name": "microspot.ch",
+      "logourl": "http://www.microspot.ch/favicon.ico",
+      "url": "TODO....",
+      "deals": [
+        {
+          "title_regex": "(QoQa.ch \\|) (.)*",
+          "description_regex": "",
+          "image_regex": "",
+          "link_regex": "",
+          "price_regex": "[+-]*\\d+[\\.]*\\d+",
+          "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
         },
         {
-            "name": "microspot.ch",
-            "logourl": "http://www.microspot.ch/favicon.ico",
-            "url": "TODO....",
-            "deals": [
-                {
-                    "title_xpath": "/html/head/title",
-                    "title_regex": "(QoQa.ch \\|) (.)*",
-                    "description_xpath": "/html/body/div[4]/div[8]/div/div[2]/div[2]/div[2]/div",
-                    "description_regex": "",
-                    "image_xpath": "//*[@id=\"showcase_media_DESKTOP_0\"]",
-                    "image_regex": "",
-                    "link_xpath": "/html/head/link[7]",
-                    "link_regex": "",
-                    "price_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[1]/span[1]",
-                    "price_regex": "[+-]*\\d+[\\.]*\\d+",
-                    "oldprice_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[2]/span/div[2]",
-                    "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
-                },
-                {
-                    "title_xpath": "/html/head/title",
-                    "title_regex": "(QoQa.ch \\|) (.)*",
-                    "description_xpath": "/html/body/div[4]/div[8]/div/div[2]/div[2]/div[2]/div",
-                    "description_regex": "",
-                    "image_xpath": "//*[@id=\"showcase_media_DESKTOP_0\"]",
-                    "image_regex": "",
-                    "link_xpath": "/html/head/link[7]",
-                    "link_regex": "",
-                    "price_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[1]/span[1]",
-                    "price_regex": "[+-]*\\d+[\\.]*\\d+",
-                    "oldprice_xpath": "/html/body/div[4]/div[3]/div[3]/div[1]/div[1]/div[1]/div[2]/span/div[2]",
-                    "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
-                }
-            ]
+          "title_regex": "(QoQa.ch \\|) (.)*",
+          "description_regex": "",
+          "image_regex": "",
+          "link_regex": "",
+          "price_regex": "[+-]*\\d+[\\.]*\\d+",
+          "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
         }
-    ]
+      ]
+    }
+  ]
 }
