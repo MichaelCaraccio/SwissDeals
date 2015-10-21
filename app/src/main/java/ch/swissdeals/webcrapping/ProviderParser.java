@@ -1,4 +1,4 @@
-package ch.swissdeals.service;
+package ch.swissdeals.webcrapping;
 
 import java.util.ArrayList;
 import java.util.Iterator;

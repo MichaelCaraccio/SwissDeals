@@ -14,8 +14,8 @@ import java.io.OutputStreamWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.swissdeals.service.ProviderParser;
-import ch.swissdeals.service.ProviderParserFactory;
+import ch.swissdeals.webcrapping.ProviderParser;
+import ch.swissdeals.webcrapping.ProviderParserFactory;
 
 
 public class ProviderManager {
@@ -62,7 +62,7 @@ public class ProviderManager {
     /**
      * save the user's providers. Don't forget to call this method
      * after calling subscribe or unsubscribe to persist the changes.
-     * <p/>
+     * <p>
      * TODO: TEST IT !!
      *
      * @param context
@@ -81,7 +81,7 @@ public class ProviderManager {
      * @return
      * @see Set#add(Object)
      * Don't forget to call saveUserProviders() to make this effective
-     * <p/>
+     * <p>
      * TODO: TEST IT !!
      */
     public boolean subscribe(String providerID) {
@@ -92,7 +92,7 @@ public class ProviderManager {
      * @param providerID
      * @see Set#remove(Object)
      * * Don't forget to call saveUserProviders() to make this effective
-     * <p/>
+     * <p>
      * TODO: TEST IT !!
      */
     public void unsubscribe(String providerID) {

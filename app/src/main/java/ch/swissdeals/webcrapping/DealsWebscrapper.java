@@ -1,4 +1,4 @@
-package ch.swissdeals.service;
+package ch.swissdeals.webcrapping;
 
 import android.util.Log;
 
@@ -23,7 +23,7 @@ import ch.swissdeals.ProviderManager;
 /**
  * The purpose of this class is to extract deals from the provider's website
  * using webscraping and basically regexes.
- * <p/>
+ * <p>
  * It returns a JSON REST-like object in order to mimic the behaviour of a web service.
  * This way it can easily be replaced if we choose to rely on a webservice
  */

@@ -1,4 +1,4 @@
-package ch.swissdeals.service;
+package ch.swissdeals.webcrapping;
 
 public class DealParser {
     private String titleRegex;

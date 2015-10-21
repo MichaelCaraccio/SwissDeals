@@ -1,4 +1,4 @@
-package ch.swissdeals.service;
+package ch.swissdeals.webcrapping;
 
 import android.util.Log;
 

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import ch.swissdeals.service.DealsWebscrapper;
+import ch.swissdeals.webcrapping.DealsWebscrapper;
 
 
 public class DummyActivity extends AppCompatActivity {
