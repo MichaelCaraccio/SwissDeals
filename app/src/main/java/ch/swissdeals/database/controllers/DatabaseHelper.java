@@ -84,6 +84,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // TODO truncate table
+
     /**
      * Close Database
      */
@@ -108,7 +110,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_DEALS_ID, deal.getDeal_id());
         values.put(KEY_DEALS_FK_PROVIDER_ID, deal.getFk_provider_id());
         values.put(KEY_DEALS_TITLE, deal.getTitle());
         values.put(KEY_DEALS_DESCRIPTION, deal.getDescription());
@@ -240,7 +241,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_PROVIDERS_ID, provider.getProvider_id());
         values.put(KEY_PROVIDERS_NAME, provider.getName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
@@ -260,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
-                + KEY_PROVIDERS_NAME + " = " + '"' +  provider_name  + '"';
+                + KEY_PROVIDERS_NAME + " = " + '"' + provider_name + '"';
 
         Log.e(LOG, selectQuery);
 
@@ -290,7 +290,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT " + KEY_PROVIDERS_ID + " FROM " + TABLE_PROVIDERS + " WHERE "
-                + KEY_PROVIDERS_NAME + " = " + provider_name;
+                + KEY_PROVIDERS_NAME + " = '" + provider_name + "'";
 
         Log.e(LOG, selectQuery);
 
@@ -366,6 +366,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{provider_name});
     }
 
+    /**
+     * Delete providers from list. If cascadeRemove is set to true, deals will be deleted too.
+     *
+     * @param listProviderName
+     * @param cascadeRemove
+     */
+    public synchronized void deleteProviders(List<String> listProviderName, boolean cascadeRemove) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        StringBuilder listName = new StringBuilder();
+
+        // Concatenate providers in the same string
+        String delimiter = "'";
+        for (String name : listProviderName) {
+            listName.append(delimiter).append(name);
+            delimiter = "','";
+        }
+        listName.append("'");
+
+        if (cascadeRemove) {
+
+            StringBuilder listNameID = new StringBuilder();
+
+            // Concatenate providers in the same string
+            delimiter = "'";
+            for (String name : listProviderName) {
+                listNameID.append(delimiter).append(Integer.toString(getProviderIDFromName(name)));
+                delimiter = "','";
+            }
+            listNameID.append("'");
+
+            String queryCascade = String.format("DELETE FROM %s WHERE %s IN (%s)", TABLE_DEALS, KEY_DEALS_FK_PROVIDER_ID, listNameID);
+            db.execSQL(queryCascade);
+        }
+
+        String queryDelete = String.format("DELETE FROM %s WHERE %s IN (%s)", TABLE_PROVIDERS, KEY_PROVIDERS_NAME, listName);
+        db.execSQL(queryDelete);
+    }
 
     /**
      * Get deals from provider name

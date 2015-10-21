@@ -13,8 +13,8 @@ public class ModelProviders {
     public ModelProviders() {
     }
 
-    public ModelProviders(int provider_id, String name, String url, String favicon_url) {
-        this.provider_id = provider_id;
+    // TODO ajouter display_name
+    public ModelProviders(String name, String url, String favicon_url) {
         this.name = name;
         this.url = url;
         this.favicon_url = favicon_url;

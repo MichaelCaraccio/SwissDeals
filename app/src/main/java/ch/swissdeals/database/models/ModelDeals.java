@@ -14,8 +14,7 @@ public class ModelDeals {
     public ModelDeals() {
     }
 
-    public ModelDeals(int deal_id, int fk_provider_id, String title, String description, String image_url, String link, float price, float old_price) {
-        this.deal_id = deal_id;
+    public ModelDeals(int fk_provider_id, String title, String description, String image_url, String link, float price, float old_price) {
         this.fk_provider_id = fk_provider_id;
         this.title = title;
         this.description = description;
@@ -104,5 +103,20 @@ public class ModelDeals {
 
     public void setOld_price(float old_price) {
         this.old_price = old_price;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ModelDeals{");
+        sb.append("deal_id=").append(deal_id);
+        sb.append(", fk_provider_id=").append(fk_provider_id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", image_url='").append(image_url).append('\'');
+        sb.append(", link='").append(link).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", old_price=").append(old_price);
+        sb.append('}');
+        return sb.toString();
     }
 }
