@@ -3,6 +3,7 @@
     package="ch.swissdeals">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -33,6 +34,18 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service
+            android:name=".service.DealDownloaderService"
+            android:enabled="true" />
+
+        <!-- Will be called automatically when the device boots -->
+        <receiver
+            android:name=".service.DeviceBootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
