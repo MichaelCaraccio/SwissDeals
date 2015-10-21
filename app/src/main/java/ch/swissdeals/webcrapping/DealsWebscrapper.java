@@ -43,7 +43,7 @@ public class DealsWebscrapper {
     public JSONObject getDeals() throws JSONException {
 
         JSONObject jobj = new JSONObject();
-        jobj.put("providerID", providerParser.getProviderID());
+        jobj.put("providerName", providerParser.getProviderID());
 
         JSONArray jDealsArray = new JSONArray();
 
