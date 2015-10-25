@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
+import ch.swissdeals.database.controllers.DatabaseHelper;
+import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.dummy.DummyContent;
 
 /**
@@ -45,7 +47,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private DealsSubscribedAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
     public static DealsSubscribedFragment newInstance(String param1, String param2) {
@@ -73,9 +75,15 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+       /* String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
+                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+                "Linux", "OS/2" };*/
+
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        List<ModelDeals> listdeals = db.getAllDeals();
+
+
+        mAdapter = new DealsSubscribedAdapter(getActivity(), listdeals);
     }
 
     @Override
@@ -92,6 +100,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
