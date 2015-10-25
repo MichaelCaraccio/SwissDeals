@@ -2,7 +2,7 @@
   "providers": [
     {
       "name": "QoQa.ch",
-      "logourl": "www.qoqa.ch/favicon.ico",
+      "favicon_url": "http://static.qoqa.com/frontend3/images/logos/flat/qoqa_ch.png",
       "url": "http://www.qoqa.ch/",
       "deals": [
         {
@@ -17,7 +17,7 @@
     },
     {
       "name": "microspot.ch",
-      "logourl": "http://www.microspot.ch/favicon.ico",
+      "favicon_url": "http://www.microspot.ch/favicon.ico",
       "url": "TODO....",
       "deals": [
         {

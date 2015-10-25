@@ -13,7 +13,8 @@ public class ProviderParserFactory {
     public static ProviderParser fromJSON(JSONObject jobj) throws JSONException {
         String providerID = jobj.getString("name");
         String url = jobj.getString("url");
-        ProviderParser provider = new ProviderParser(providerID, url);
+        String faviconUrl = jobj.getString("favicon_url");
+        ProviderParser provider = new ProviderParser(providerID, url, faviconUrl);
 
         JSONArray jDeals = jobj.getJSONArray("deals");
         for (int i = 0; i < jDeals.length(); i++) {

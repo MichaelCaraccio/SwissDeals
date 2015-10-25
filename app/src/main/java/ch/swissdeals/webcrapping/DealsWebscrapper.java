@@ -44,6 +44,8 @@ public class DealsWebscrapper {
 
         JSONObject jobj = new JSONObject();
         jobj.put("providerName", providerParser.getProviderID());
+        jobj.put("providerUrl", providerParser.getUrl());
+        jobj.put("providerFaviconUrl", providerParser.getFaviconUrl());
 
         JSONArray jDealsArray = new JSONArray();
 
