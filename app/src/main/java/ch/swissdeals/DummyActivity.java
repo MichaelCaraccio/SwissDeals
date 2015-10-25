@@ -12,15 +12,10 @@ import com.squareup.okhttp.Response;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import ch.swissdeals.webcrapping.DealsWebscrapper;
 
 
 public class DummyActivity extends AppCompatActivity {
@@ -62,9 +57,9 @@ public class DummyActivity extends AppCompatActivity {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
             providerManager.subscribe("QoQa.ch");
-            providerManager.subscribe("QoQa.ch");
-            providerManager.subscribe("microspot.ch");
-            providerManager.subscribe("deindeal.ch");
+//            providerManager.subscribe("QoQa.ch");
+//            providerManager.subscribe("microspotYOLO.ch");
+//            providerManager.subscribe("deindeal.ch");
 
             providerManager.saveUserProviders(getApplicationContext());
 
@@ -75,29 +70,29 @@ public class DummyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        new AsyncTask<String, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(String... params) {
-                try {
-                    String providerID = params[0];
-                    ProviderManager.getInstance().load(getApplicationContext());
-                    DealsWebscrapper webscrapper = new DealsWebscrapper(providerID);
-                    JSONObject jDeals = webscrapper.getDeals();
-
-                    Log.d(TAG, "jDeals: " + jDeals.toString(4));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ProviderManager.NotLoadedException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute(providerID);
+//        new AsyncTask<String, Void, Void>() {
+//
+//            @Override
+//            protected Void doInBackground(String... params) {
+//                try {
+//                    String providerID = params[0];
+//                    ProviderManager.getInstance().load(getApplicationContext());
+//                    DealsWebscrapper webscrapper = new DealsWebscrapper(providerID);
+//                    JSONObject jDeals = webscrapper.getDeals();
+//
+//                    Log.d(TAG, "jDeals: " + jDeals.toString(4));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (ProviderManager.NotLoadedException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (ParserConfigurationException e) {
+//                    e.printStackTrace();
+//                }
+//                return null;
+//            }
+//        }.execute(providerID);
 
         //////////////////////////
         // Regex only

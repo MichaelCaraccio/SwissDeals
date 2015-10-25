@@ -55,14 +55,19 @@ public class ProviderManager {
 //        return null;
 //    }
 
-    public Set<String> getSubscribedProviders() {
-        return new HashSet<>(subscribedProviders);
+//    public List<Provider> getUnusedProviders() {
+//        //TODO...
+//        return null;
+//    }
+
+    public Iterable<String> getSubscribedProviders() {
+        return subscribedProviders;
     }
 
     /**
      * save the user's providers. Don't forget to call this method
      * after calling subscribe or unsubscribe to persist the changes.
-     * <p>
+     * <p/>
      * TODO: TEST IT !!
      *
      * @param context
@@ -81,7 +86,7 @@ public class ProviderManager {
      * @return
      * @see Set#add(Object)
      * Don't forget to call saveUserProviders() to make this effective
-     * <p>
+     * <p/>
      * TODO: TEST IT !!
      */
     public boolean subscribe(String providerID) {
@@ -92,7 +97,7 @@ public class ProviderManager {
      * @param providerID
      * @see Set#remove(Object)
      * * Don't forget to call saveUserProviders() to make this effective
-     * <p>
+     * <p/>
      * TODO: TEST IT !!
      */
     public void unsubscribe(String providerID) {
@@ -104,6 +109,10 @@ public class ProviderManager {
             throw new NotLoadedException();
         }
 
+        //TODO: move this in a load function, add every provider into a map
+        //TODO: and then in this function do: return mapProvider.get(providerName);
+        //TODO: and in getAvailableProviders() do: return mapProvider.values();
+        //TODO: warning ! we need both Provider and ProviderParser, store all in RAM ?
         JSONArray arrProviders = this.jsonProviders.getJSONArray("providers");
 
         for (int i = 0; i < arrProviders.length(); i++) {
@@ -115,6 +124,7 @@ public class ProviderManager {
                 return ProviderParserFactory.fromJSON(jobj);
             }
         }
+        Log.e(TAG, "providerID [" + providerID + "] NOT found !");
         return null;
     }
 
