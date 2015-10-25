@@ -16,7 +16,7 @@ import ch.swissdeals.database.models.ModelProviders;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Logcat tag
-    private static final String LOG = "DatabaseHelper";
+    private static final String LOG = DatabaseHelper.class.getSimpleName();
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -266,6 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
+        //TODO: check if c.getCount() > 0 ?
         if (c != null)
             c.moveToFirst();
 
@@ -299,7 +300,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        return c != null ? c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)) : -1;
+        return c != null && c.getCount() > 0 ? c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)) : ModelProviders.DEFAULT_ID;
     }
 
 
@@ -352,6 +353,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_PROVIDERS, values, KEY_PROVIDERS_ID + " = ?",
                 new String[]{String.valueOf(provider.getProvider_id())});
+    }
+
+    public synchronized long createOrUpdateProvider(ModelProviders provider) {
+        int id = getProviderIDFromName(provider.getName());
+        Log.d(LOG, "providerID: " + id);
+        if (id == ModelProviders.DEFAULT_ID) {
+            return createProvider(provider);
+        } else {
+            return updateProvider(provider);
+        }
     }
 
 

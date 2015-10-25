@@ -11,6 +11,7 @@ public class ModelProviders {
 
 
     public ModelProviders() {
+        this.provider_id = ModelProviders.DEFAULT_ID;
     }
 
     // TODO ajouter display_name
@@ -28,6 +29,8 @@ public class ModelProviders {
     private String name;
     private String url;
     private String favicon_url;
+
+    public static final int DEFAULT_ID = -1;
 
     // ****************************************************************************
     // Getters and setters
