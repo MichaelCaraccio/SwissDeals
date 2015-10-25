@@ -3,6 +3,7 @@ package ch.swissdeals;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelDeals;
+import ch.swissdeals.database.models.ModelProviders;
 import ch.swissdeals.dummy.DummyContent;
 
 /**
@@ -81,6 +83,12 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         List<ModelDeals> listdeals = db.getAllDeals();
+
+        List<ModelProviders> listproviders = db.getAllProviders();
+
+        for (ModelProviders p : listproviders) {
+            Log.d("Get all deals", String.valueOf(p.getProvider_id()) + " | " + p.getName() + " | " + p.getUrl());
+        }
 
 
         mAdapter = new DealsSubscribedAdapter(getActivity(), listdeals);

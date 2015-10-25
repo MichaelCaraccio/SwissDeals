@@ -303,6 +303,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c != null && c.getCount() > 0 ? c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)) : ModelProviders.DEFAULT_ID;
     }
 
+    // TODO Compter le nombre de d'inscription
+
+    public synchronized String getProviderNameFromID(int provider_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT " + KEY_PROVIDERS_NAME + " FROM " + TABLE_PROVIDERS + " WHERE "
+                + KEY_PROVIDERS_ID + " = '" + provider_id + "'";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c != null && c.getCount() > 0 ? c.getString(c.getColumnIndex(KEY_PROVIDERS_NAME)) : String.valueOf(ModelProviders.DEFAULT_ID);
+    }
 
     /**
      * Get all providers
