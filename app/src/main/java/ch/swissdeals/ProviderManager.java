@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.swissdeals.database.models.ModelProviders;
 import ch.swissdeals.webcrapping.ProviderParser;
 import ch.swissdeals.webcrapping.ProviderParserFactory;
 
@@ -28,6 +29,8 @@ public class ProviderManager {
 
     private JSONObject jsonProviders;
     private Set<String> subscribedProviders;
+    private Set<ModelProviders> availableProviders;
+    private Set<ProviderParser> providerParsers;
 
     public static ProviderManager getInstance() {
         if (instance == null) {
@@ -38,27 +41,39 @@ public class ProviderManager {
 
     private ProviderManager() {
         this.subscribedProviders = new HashSet<>();
+        this.availableProviders = new HashSet<>();
+        this.providerParsers = new HashSet<>();
     }
 
     public void load(Context context) throws JSONException {
         loadJSONFromAssets(context);
+        buildProviders();
+
         loadUserProviders(context);
     }
 
-//    public List<Provider> getAvailableProviders() {
-//        //TODO:
-//        return null;
-//    }
+
+    public Iterable<ModelProviders> getAvailableProviders() {
+        return this.availableProviders;
+    }
 
 //    public List<Provider> getSubscribedProviders() {
 //        //TODO...
 //        return null;
 //    }
 
-//    public List<Provider> getUnusedProviders() {
-//        //TODO...
-//        return null;
-//    }
+    //TODO: test it
+    public Iterable<ModelProviders> getUnusedProviders() {
+        Set<ModelProviders> unusedProviders = new HashSet<>();
+
+        for (ModelProviders p : availableProviders) {
+            if (!subscribedProviders.contains(p.getName())) {
+                unusedProviders.add(p);
+            }
+        }
+
+        return unusedProviders;
+    }
 
     public Iterable<String> getSubscribedProviders() {
         return subscribedProviders;
@@ -104,11 +119,50 @@ public class ProviderManager {
         this.subscribedProviders.remove(providerID);
     }
 
+    /**
+     * Returns a ProviderParser from a providerID.
+     * <p/>
+     * Result can be null !
+     *
+     * @param providerID
+     * @return
+     * @throws NotLoadedException
+     * @throws JSONException
+     */
     public ProviderParser getProviderParser(String providerID) throws NotLoadedException, JSONException {
         if (this.jsonProviders == null) {
             throw new NotLoadedException();
         }
 
+        for (ProviderParser pParser : this.providerParsers) {
+            if (pParser.getProviderID().equals(providerID))
+                return pParser;
+        }
+        return null;
+    }
+
+    /**
+     * Returns a ModelProviders from a providerID.
+     * <p/>
+     * Result can be null !
+     *
+     * @param providerName
+     * @return
+     * @throws NotLoadedException
+     */
+    public ModelProviders getModelProvider(String providerName) throws NotLoadedException {
+        if (this.jsonProviders == null) {
+            throw new NotLoadedException();
+        }
+
+        for (ModelProviders pModel : this.availableProviders) {
+            if (pModel.getName().equals(providerName))
+                return pModel;
+        }
+        return null;
+    }
+
+    private void buildProviders() throws JSONException {
         //TODO: move this in a load function, add every provider into a map
         //TODO: and then in this function do: return mapProvider.get(providerName);
         //TODO: and in getAvailableProviders() do: return mapProvider.values();
@@ -118,14 +172,12 @@ public class ProviderManager {
         for (int i = 0; i < arrProviders.length(); i++) {
             JSONObject jobj = arrProviders.getJSONObject(i);
 
-            String providerName = jobj.getString("name");
-            if (providerName.equals(providerID)) {
-                Log.d(TAG, "providerID [" + providerID + "] found !");
-                return ProviderParserFactory.fromJSON(jobj);
-            }
+            ProviderParser pParser = ProviderParserFactory.fromJSON(jobj);
+            this.providerParsers.add(pParser);
+
+            ModelProviders pModel = createProviderModel(pParser);
+            this.availableProviders.add(pModel);
         }
-        Log.e(TAG, "providerID [" + providerID + "] NOT found !");
-        return null;
     }
 
     private void loadJSONFromAssets(Context context) throws JSONException {
@@ -204,6 +256,15 @@ public class ProviderManager {
         jobj.put(JSON_ARRAY_NAME, jArr);
         return jobj.toString();
     }
+
+    private ModelProviders createProviderModel(ProviderParser pParser) {
+        ModelProviders pModel = new ModelProviders();
+        pModel.setName(pParser.getProviderID());
+        pModel.setUrl(pParser.getUrl());
+        pModel.setFavicon_url(pParser.getFaviconUrl());
+        return pModel;
+    }
+
 
     public class NotLoadedException extends Exception {
 

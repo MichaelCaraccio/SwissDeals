@@ -84,7 +84,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // TODO truncate table
+    public synchronized void deleteAllDeals() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_DEALS);
+    }
 
     /**
      * Close Database
@@ -376,8 +379,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int id = getProviderIDFromName(provider.getName());
         Log.d(LOG, "providerID: " + id);
         if (id == ModelProviders.DEFAULT_ID) {
+            Log.d(LOG, "create");
             return createProvider(provider);
         } else {
+            Log.d(LOG, "update");
             return updateProvider(provider);
         }
     }
