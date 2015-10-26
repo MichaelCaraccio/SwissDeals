@@ -23,7 +23,6 @@ import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.database.models.ModelProviders;
 import ch.swissdeals.webcrapping.DealsWebscrapper;
-import ch.swissdeals.webcrapping.ProviderParser;
 
 public class DealDownloaderService extends IntentService {
     private static final String TAG = DealDownloaderService.class.getSimpleName();
@@ -59,10 +58,7 @@ public class DealDownloaderService extends IntentService {
         //TODO: foreach -> call DealWebscrapper
         for (String providerName : subscribedProviders) {
             //TODO: add or update existing providers (only thoses chosen by the user)
-            ProviderParser pParser = providerManager.getProviderParser(providerName);
-            Log.d(TAG, "pParser: " + pParser.toString());
-            ModelProviders pModel = createProviderModel(pParser);
-            Log.d(TAG, "pModel: " + pModel.toString());
+            ModelProviders pModel = providerManager.getModelProvider(providerName);
             dbHelper.createOrUpdateProvider(pModel);
 
             DealsWebscrapper webscrapper = new DealsWebscrapper(providerName);
@@ -75,8 +71,22 @@ public class DealDownloaderService extends IntentService {
 
         /// TRANSACTION
         //TODO: remove unused providers (AND ITS DEALS !!! (no cascade delete), not necessary if TRUNCATE)
+
+        Iterable<ModelProviders> unusedProviders = providerManager.getUnusedProviders();
+        List<String> unusedProvidersName = new ArrayList<>();
+        for (ModelProviders unusedProvider : unusedProviders) {
+            unusedProvidersName.add(unusedProvider.getName());
+        }
+        boolean mustRemoveLinkedDeals = false;
+        Log.d(TAG, "unusedProvidersName: " + unusedProvidersName.toString());
+        dbHelper.deleteProviders(unusedProvidersName, mustRemoveLinkedDeals);
+
         //TODO: remove all existing deals (TRUNCATE)
+        dbHelper.deleteAllDeals();
         //TODO: add freshly parsed deals (ModelDeals) to DB
+        for (ModelDeals deal : webscrappedDeals) {
+            dbHelper.createDeal(deal);
+        }
         /// END TRANSACTION
 
 
@@ -93,14 +103,6 @@ public class DealDownloaderService extends IntentService {
         Log.d(TAG, "Je suis couru !");
 
         Log.d(TAG, "persisted providers: " + dbHelper.getAllProviders().toString());
-    }
-
-    private ModelProviders createProviderModel(ProviderParser pParser) {
-        ModelProviders pModel = new ModelProviders();
-        pModel.setName(pParser.getProviderID());
-        pModel.setUrl(pParser.getUrl());
-        pModel.setFavicon_url(pParser.getFaviconUrl());
-        return pModel;
     }
 
     private void parseDeals(JSONObject jDeals, List<ModelDeals> webscrappedDeals) throws JSONException {
