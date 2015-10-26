@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="?android:attr/actionBarSize"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/fragmentDealDetails"
     tools:showIn="@layout/activity_deal_details_fragment"
     tools:context="ch.swissdeals.DealDetailsFragment">
 

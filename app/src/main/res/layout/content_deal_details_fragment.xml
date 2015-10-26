@@ -7,6 +7,12 @@
     tools:showIn="@layout/activity_deals_details_fragment"
     tools:context="ch.swissdeals.DealDetailsFragment">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/title"
+        android:layout_gravity="center" />
 </FrameLayout>

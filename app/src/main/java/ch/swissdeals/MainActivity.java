@@ -53,42 +53,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        /*DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-
-        // Deals
-        ModelDeals d1 = new ModelDeals(1, "Titre 1", "Description 1", "http://www.image.com/monimage1.png", "http://www.image.com", 99, 120);
-        ModelDeals d2 = new ModelDeals(2, "Titre 2", "Description 2", "http://www.image.com/monimage2.png", "http://www.image.com", 112, 199);
-        ModelDeals d3 = new ModelDeals(3, "Titre 3", "Description 3", "http://www.image.com/monimage3.png", "http://www.image.com", 45, 90);
-
-        // Providers
-        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", null);
-        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", null);
-        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", null);
-
-        // Create deals
-        db.createDeal(d1);
-        db.createDeal(d2);
-        db.createDeal(d3);
-
-        // Create providers
-        db.createProvider(p1);
-        db.createProvider(p2);
-        db.createProvider(p3);
-
-        List<ModelDeals> listdeals = db.getAllDeals();
-
-        for (ModelDeals d : listdeals) {
-            Log.d("Get all deals", String.valueOf(d.getDeal_id()) + " | " + d.getTitle() + " | " + d.getPrice());
-        }
-
-        List<ModelProviders> listproviders = db.getAllProviders();
-
-        for (ModelProviders p : listproviders) {
-            Log.d("Get all deals", String.valueOf(p.getProvider_id()) + " | " + p.getName() + " | " + p.getUrl());
-        }*/
-
-
         mTitle = mDrawerTitle = getTitle();
 
         // load slide menu items
@@ -156,6 +120,29 @@ public class MainActivity extends AppCompatActivity
         ft.add(R.id.fragment_container, dealsSubscribedFragment).commit();
     }
 
+    /**
+     *
+     * @param position
+     */
+    @Override
+    public void onFragmentInteraction(int position) {
+
+        DealDetailsFragment details = new DealDetailsFragment();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        details.updatePosition(position);
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, details);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -214,7 +201,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onFragmentInteraction(String id) {
 
-        Log.d("MainActivity", id);
+        Log.d("MainActivity", "coonnnnnn");
 
 
         DealDetailsFragment details = new DealDetailsFragment();
@@ -235,6 +222,7 @@ public class MainActivity extends AppCompatActivity
         //public void onFragmentInteractionFromDetails(Uri id) {
         //Log.d("MainActivity from details", id.getPath());
     }
+
 
     /**
      * Slide menu item click listener
