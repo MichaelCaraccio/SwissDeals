@@ -2,7 +2,7 @@
   "providers": [
     {
       "name": "QoQa.ch",
-      "favicon_url": "http://static.qoqa.com/frontend3/images/logos/flat/qoqa_ch.png",
+      "favicon_url": "http://static.qoqa.com/frontend3/images/icons/qoqa_app.png",
       "url": "http://www.qoqa.ch/",
       "deals": [
         {
