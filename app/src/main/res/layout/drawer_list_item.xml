@@ -18,7 +18,7 @@
         android:src="@android:drawable/ic_dialog_dialer" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/providerName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/image"

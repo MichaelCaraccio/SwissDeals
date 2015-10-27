@@ -3,11 +3,13 @@ package ch.swissdeals;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private ListView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -70,7 +72,10 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        Context ctx = getActivity().getApplicationContext();
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -78,20 +83,23 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         }
 
         // Get user's deals
-        DatabaseHelper db = new DatabaseHelper(getActivity());
+        DatabaseHelper db = new DatabaseHelper(ctx);
         listdeals = db.getAllDeals();
+        Log.d("CON", listdeals.toString());
 
-        mAdapter = new DealsSubscribedAdapter(getActivity(), listdeals);
+        mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_deal, container, false);
+        View view = inflater.inflate(R.layout.content_deals_subscribed, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = (ListView) view.findViewById(R.id.content_deal_subscribed_list);
+
         mListView.setAdapter(mAdapter);
+
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);

@@ -10,10 +10,9 @@
     tools:showIn="@layout/activity_deals_subscribed"
     tools:context="ch.swissdeals.DealsSubscribedActivity">
 
-    <fragment
-        android:id="@+id/dealssubscribedfragment"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="ch.swissdeals.DealsSubscribedFragment" />
+        android:id="@+id/content_deal_subscribed_list"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

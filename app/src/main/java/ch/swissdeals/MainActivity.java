@@ -1,8 +1,8 @@
 package ch.swissdeals;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     // used to store app title
     private CharSequence mTitle;
+    private TextView menuTitle;
 
     // slide menu items
     private String[] navMenuTitles;
@@ -52,8 +53,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mTitle = mDrawerTitle = getTitle();
 
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -95,6 +94,14 @@ public class MainActivity extends AppCompatActivity
             displayView(0);
         }
 
+        try {
+            ProviderManager providerManager = ProviderManager.getInstance();
+            providerManager.load(getApplicationContext());
+            providerManager.subscribe("QoQa.ch");
+            providerManager.saveUserProviders(getApplicationContext());
+        } catch (Exception e) {
+
+        }
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -121,26 +128,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     *
      * @param position
      */
     @Override
     public void onFragmentInteraction(int position) {
+        Intent dealFragment = new Intent(getApplicationContext(), DealDetailsActivity.class);
+        dealFragment.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
 
-        DealDetailsFragment details = new DealDetailsFragment();
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        details.updatePosition(position);
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, details);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
+        startActivity(dealFragment);
     }
 
     @Override
@@ -199,31 +194,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void onFragmentInteraction(String id) {
-
-        Log.d("MainActivity", "coonnnnnn");
-
-
-        DealDetailsFragment details = new DealDetailsFragment();
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, details);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
-
-
-        //public void onFragmentInteractionFromDetails(Uri id) {
-        //Log.d("MainActivity from details", id.getPath());
-    }
-
-
     /**
      * Slide menu item click listener
      */
@@ -277,10 +247,11 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        if (fragment != null) {
+        //TODO Controler le click du drawer
+        /*if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+                    .replace(R.id.frame_container,fragment).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -288,15 +259,27 @@ public class MainActivity extends AppCompatActivity
             setTitle(navMenuTitles[position]);
             //mDrawerLayout.closeDrawer(mDrawerList);
         } else {
-            // error in creating fragment
-            Log.e("MainActivity", "Error in creating fragment");
-        }
+            // error in creating
+            DealsSubscribedFragment subscribedFragment = new DealsSubscribedFragment();
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragment_container, subscribedFragment);
+            //transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
+            Log.e("MainActivity", "Error in creating lol fragment");
+        }*/
     }
 
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        //getActionBar().setTitle(mTitle);
     }
 
     @Override

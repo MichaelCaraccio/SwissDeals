@@ -31,22 +31,20 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.item_deal, parent, false);
-        TextView dealTitle = (TextView) rowView.findViewById(R.id.title);
-        TextView dealProviderName = (TextView) rowView.findViewById(R.id.providerName);
-        TextView dealDescription = (TextView) rowView.findViewById(R.id.shortDescription);
-        TextView dealCurrentPrice = (TextView) rowView.findViewById(R.id.currentPrice);
-        TextView dealOldPrice = (TextView) rowView.findViewById(R.id.oldPrice);
-        TextView dealHoursLeft = (TextView) rowView.findViewById(R.id.hoursLeft);
+        TextView dealTitle = (TextView) rowView.findViewById(R.id.item_title);
+        TextView dealProviderName = (TextView) rowView.findViewById(R.id.item_providerName);
+        TextView dealDescription = (TextView) rowView.findViewById(R.id.item_shortDescription);
+        TextView dealCurrentPrice = (TextView) rowView.findViewById(R.id.item_currentPrice);
+        TextView dealOldPrice = (TextView) rowView.findViewById(R.id.item_oldPrice);
 
 
-        ImageView dealImage = (ImageView) rowView.findViewById(R.id.image);
+        ImageView dealImage = (ImageView) rowView.findViewById(R.id.item_image);
 
         dealTitle.setText(values.get(position).getTitle());
         dealProviderName.setText(helper.getProviderNameFromID(values.get(position).getFk_provider_id()));
         dealDescription.setText(values.get(position).getDescription());
         dealCurrentPrice.setText(String.valueOf(values.get(position).getPrice()));
         dealOldPrice.setText(String.valueOf(values.get(position).getOld_price()));
-        dealHoursLeft.setText("-- hours left");
 
         return rowView;
     }
