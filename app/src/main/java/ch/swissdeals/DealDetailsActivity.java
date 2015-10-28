@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,7 +60,7 @@ public class DealDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setBitmapHeight(80);
+        setBitmapHeight(100);
         setBitmapWidth(200);
         setCrossOutThickness(5);
 
@@ -77,8 +79,7 @@ public class DealDetailsActivity extends AppCompatActivity {
         TextView textOldPrice = (TextView) this.findViewById(R.id.detail_oldPrice);
         TextView textTitle = (TextView) this.findViewById(R.id.detail_title);
         TextView textLongDescription = (TextView) this.findViewById(R.id.detail_longDescription);
-
-
+        TextView textWebsiteRedirect = (TextView) this.findViewById(R.id.detail_website_redirect);
 
 
         textProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
@@ -86,6 +87,15 @@ public class DealDetailsActivity extends AppCompatActivity {
         textOldPrice.setText(String.format("%.2f", deal.getOld_price()));
         textTitle.setText(deal.getTitle().toUpperCase());
         textLongDescription.setText(deal.getDescription());
+
+        // Redirect button
+        textWebsiteRedirect.setText("Se rendre sur " + helper.getProviderNameFromID(deal.getFk_provider_id()));
+        textWebsiteRedirect.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(deal.getLink()));
+                startActivity(browserIntent);
+            }
+        });
 
     }
 
@@ -99,7 +109,7 @@ public class DealDetailsActivity extends AppCompatActivity {
         ImageView imageFavicon = (ImageView) this.findViewById(R.id.detail_favicon);
 
         crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
-        crossOutOldPrice(getBitmapWidth(), 30, 0, getBitmapHeight() - 30, Color.parseColor("#FF4640"));
+        crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
 
 
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
