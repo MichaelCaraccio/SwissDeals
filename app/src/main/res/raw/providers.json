@@ -27,14 +27,6 @@
           "link_regex": "",
           "price_regex": "[+-]*\\d+[\\.]*\\d+",
           "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
-        },
-        {
-          "title_regex": "(QoQa.ch \\|) (.)*",
-          "description_regex": "",
-          "image_regex": "",
-          "link_regex": "",
-          "price_regex": "[+-]*\\d+[\\.]*\\d+",
-          "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
         }
       ]
     }
