@@ -3,6 +3,8 @@ package ch.swissdeals.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +28,9 @@ import ch.swissdeals.webcrapping.DealsWebscrapper;
 
 public class DealDownloaderService extends IntentService {
     private static final String TAG = DealDownloaderService.class.getSimpleName();
+    private static final int MAX_RETRY = 5;
+    //private static final long TIME_BETWEEN_TRIES = 5 * 60 * 1000; // 5 min
+    private static final long TIME_BETWEEN_TRIES = 2000; // 2 sec
     private final Handler handler;
     private DatabaseHelper dbHelper;
 
@@ -37,8 +42,23 @@ public class DealDownloaderService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
+            int retryCounter = 0;
+
+            while (!isUserOnline() && retryCounter < MAX_RETRY) {
+                Thread.sleep(TIME_BETWEEN_TRIES);
+                retryCounter++;
+
+                Log.d(TAG, "retryCounter:" + retryCounter);
+            }
+
+            // if we have not been able to connect to Internet, we give up.
+            if (retryCounter >= MAX_RETRY) {
+                Log.e(TAG, "Cannot connect to Internet. This job is cancelled.");
+                return;
+            }
+
             work();
-        } catch (JSONException | ParserConfigurationException | ProviderManager.NotLoadedException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -134,5 +154,12 @@ public class DealDownloaderService extends IntentService {
             Log.e(TAG, e.toString());
             return -1;
         }
+    }
+
+    public boolean isUserOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
