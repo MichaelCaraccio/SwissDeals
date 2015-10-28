@@ -72,7 +72,7 @@ public class DealDetailsActivity extends AppCompatActivity {
 
         // Update action bar title
         getSupportActionBar().setTitle(helper.getProviderNameFromID(deal.getFk_provider_id()));
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView textProviderName = (TextView) this.findViewById(R.id.detail_providerName);
         TextView textCurrentPrice = (TextView) this.findViewById(R.id.detail_currentPrice);
