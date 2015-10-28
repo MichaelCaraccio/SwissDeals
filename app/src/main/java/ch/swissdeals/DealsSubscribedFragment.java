@@ -3,7 +3,6 @@ package ch.swissdeals;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +84,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         // Get user's deals
         DatabaseHelper db = new DatabaseHelper(ctx);
         listdeals = db.getAllDeals();
-        Log.d("CON", listdeals.toString());
 
         mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
     }
@@ -111,6 +109,8 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
     }
 
     @Override
@@ -143,6 +143,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
             // fragment is attached to one) that an item has been selected.
 
             mListener.onFragmentInteraction(listdeals.get(position).getDeal_id());
+
         }
     }
 
