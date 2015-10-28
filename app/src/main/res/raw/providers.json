@@ -6,7 +6,7 @@
       "url": "http://www.qoqa.ch/",
       "deals": [
         {
-          "title_regex": "<title>QoQa.ch \\| ([\\w ]+)",
+          "title_regex": "<title>QoQa.ch \\| ([\\w -]+)",
           "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
           "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
           "link_regex": "<link rel=\"canonical\" href=\"(.+)\"",
