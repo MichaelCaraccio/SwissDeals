@@ -283,6 +283,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return td;
     }
 
+    /**
+     * Get provider with id
+     *
+     * @param provider_id
+     * @return ModelProviders
+     */
+    public synchronized ModelProviders getProvider(int provider_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
+                + KEY_PROVIDERS_ID + " = " + '"' + provider_id + '"';
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        //TODO: check if c.getCount() > 0 ?
+        if (c != null)
+            c.moveToFirst();
+
+        ModelProviders td = new ModelProviders();
+        assert c != null;
+        td.setProvider_id(c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)));
+        td.setName(c.getString(c.getColumnIndex(KEY_PROVIDERS_NAME)));
+        td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
+        td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
+
+        return td;
+    }
+
 
     /**
      * Get provider

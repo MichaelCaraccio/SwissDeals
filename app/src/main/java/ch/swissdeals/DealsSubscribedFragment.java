@@ -111,8 +111,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
 
     @Override
@@ -145,7 +143,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
             // fragment is attached to one) that an item has been selected.
 
             mListener.onFragmentInteraction(listdeals.get(position).getDeal_id());
-
         }
     }
 
