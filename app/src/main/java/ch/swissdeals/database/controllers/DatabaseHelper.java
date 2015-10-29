@@ -436,6 +436,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param cascadeRemove
      */
     public synchronized void deleteProviders(List<String> listProviderName, boolean cascadeRemove) {
+        if(listProviderName.isEmpty())
+            return;
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         StringBuilder listName = new StringBuilder();
