@@ -16,17 +16,17 @@
       ]
     },
     {
-      "name": "microspot.ch",
-      "favicon_url": "http://www.microspot.ch/favicon.ico",
-      "url": "TODO....",
+      "name": "digitec.ch",
+      "favicon_url": "https://www.digitec.ch/portalimage/25/touch-icon-android.png",
+      "url": "https://www.digitec.ch/fr/LiveShopping",
       "deals": [
         {
-          "title_regex": "(QoQa.ch \\|) (.)*",
+          "title_regex": "<span class=\"product-brand\">([\\w\\s,\\-()\\.&;#]+)</span>([\\w\\s,\\-()\\.&;#]+)",
           "description_regex": "",
-          "image_regex": "",
-          "link_regex": "",
-          "price_regex": "[+-]*\\d+[\\.]*\\d+",
-          "oldprice_regex": "[+-]*\\d+[\\.]*\\d+"
+          "image_regex": "<span class=\"responsive lazyload\".+<span data-src=\"(.+)\"",
+          "link_regex": "<a  class=\"product-overlay\" target=\"_self\" href=\"(.+)\" ",
+          "price_regex": "product-price-currency\">.{0,10}</span>[ ]*([-+]?[0-9]*\\.?[0-9]+)",
+          "oldprice_regex": "product-price-appendix\">avant ([-+]?[0-9]*\\.?[0-9]+)"
         }
       ]
     }
