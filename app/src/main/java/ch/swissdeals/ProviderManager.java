@@ -67,7 +67,7 @@ public class ProviderManager {
         Set<ModelProviders> unusedProviders = new HashSet<>();
 
         for (ModelProviders p : availableProviders) {
-            if (!subscribedProviders.contains(p)) {
+            if (!subscribedProviders.contains(p.getName())) {
                 unusedProviders.add(p);
             }
         }
