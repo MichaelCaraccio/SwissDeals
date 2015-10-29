@@ -1,10 +1,14 @@
 package ch.swissdeals;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -17,11 +21,14 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.swissdeals.service.DealDownloaderService;
+
 
 public class DummyActivity extends AppCompatActivity {
 
     private static final String TAG = DummyActivity.class.getSimpleName();
     private TextView tvLabel;
+    private Button btnStartService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,18 @@ public class DummyActivity extends AppCompatActivity {
 
         this.tvLabel = (TextView) findViewById(R.id.tvLabel);
         this.tvLabel.setText("YOLOOOOO");
+
+
+        this.btnStartService = (Button) findViewById(R.id.btnStartService);
+        this.btnStartService.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startService(new Intent(getApplicationContext(), DealDownloaderService.class));
+                        Toast.makeText(getApplicationContext(), "service started !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
 
         String providerID = "QoQa.ch";
 
@@ -57,6 +76,7 @@ public class DummyActivity extends AppCompatActivity {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
             providerManager.subscribe("QoQa.ch");
+            providerManager.subscribe("digitec.ch");
 //            providerManager.subscribe("QoQa.ch");
 //            providerManager.subscribe("microspotYOLO.ch");
 //            providerManager.subscribe("deindeal.ch");
