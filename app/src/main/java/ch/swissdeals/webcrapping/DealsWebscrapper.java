@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,7 @@ import ch.swissdeals.ProviderManager;
 /**
  * The purpose of this class is to extract deals from the provider's website
  * using webscraping and basically regexes.
- * <p>
+ * <p/>
  * It returns a JSON REST-like object in order to mimic the behaviour of a web service.
  * This way it can easily be replaced if we choose to rely on a webservice
  */
@@ -49,15 +51,17 @@ public class DealsWebscrapper {
 
         JSONArray jDealsArray = new JSONArray();
 
-        for (DealParser d : this.providerParser) {
+        int availableDeals = getTodayAvailableDeals();
+        DealParser d = this.providerParser.iterator().next();
+        for (int i = 1; i < availableDeals; i++) {
             JSONObject jDeal = new JSONObject();
 
-            jDeal.put("title", webscrape(d.getTitleRegex()));
-            jDeal.put("description", webscrape(d.getDescriptionRegex()));
-            jDeal.put("image_url", webscrape(d.getImageRegex()));
-            jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex())));
-            jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex())));
-            jDeal.put("link", webscrape(d.getLinkRegex()));
+            jDeal.put("title", webscrape(d.getTitleRegex(), i));
+            jDeal.put("description", webscrape(d.getDescriptionRegex(), i));
+            jDeal.put("image_url", getRealLink(d.getImageRegex(), i));
+            jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex(), i)));
+            jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex(), i)));
+            jDeal.put("link", getRealLink(d.getLinkRegex(), i));
 
             jDealsArray.put(jDeal);
         }
@@ -65,6 +69,30 @@ public class DealsWebscrapper {
         jobj.put("deals", jDealsArray);
 
         return jobj;
+    }
+
+    private String getRealLink(String linkRegex, int i) {
+        String urlRegexed = webscrape(linkRegex, i);
+        try {
+            if (!urlRegexed.startsWith("/")) {
+                return null;
+            }
+
+            String strURL = this.providerParser.getUrl();
+            Log.d(TAG, "strURL:" + strURL);
+            URL url = new URL(strURL);
+            StringBuilder b = new StringBuilder();
+            b.append(url.getProtocol());
+            b.append("://");
+            b.append(url.getHost());
+            b.append(urlRegexed);
+
+            Log.d(TAG, "url rebuilt: " + b.toString());
+            return b.toString();
+
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 
     private void downloadHtmlPage() throws IOException, ParserConfigurationException {
@@ -77,7 +105,7 @@ public class DealsWebscrapper {
         Log.d(TAG, "raw: " + htmlBody);
     }
 
-    private String webscrape(String regex) {
+    private String webscrape(String regex, int occurrence) {
         String result = null;
 
         Log.d(TAG, "regex: " + regex);
@@ -85,10 +113,16 @@ public class DealsWebscrapper {
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
         Matcher matcher = pattern.matcher(htmlBody);
 
+        for (int i = 0; i < occurrence - 1; i++) {
+            matcher.find();
+        }
         if (matcher.find()) {
-            Log.d(TAG, "clean: " + matcher.group(1));
+            // we start at 1 because group 0 contains all the regex
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                result = matcher.group(i) + " ";
+            }
+            Log.d(TAG, "clean: " + result);
 
-            result = matcher.group(1);
             result = beautifyRegex(result);
         }
 
@@ -105,7 +139,11 @@ public class DealsWebscrapper {
      * @return cleaned text
      */
     private String beautifyRegex(String text) {
+        if (text == null || text.isEmpty()) {
+            return null;
+        }
         text = StringEscapeUtils.unescapeHtml4(text);
+        text = text.trim();
         return text;
     }
 
@@ -116,5 +154,25 @@ public class DealsWebscrapper {
             Log.w(TAG, e.toString());
             return -1;
         }
+    }
+
+    /**
+     * Assuming that all deals in the HTML page are structured the same way,
+     * we can iterate over the regex title to retrieve all the today deals
+     *
+     * @return the number of deals found today for the given provider
+     */
+    private int getTodayAvailableDeals() {
+        DealParser d = this.providerParser.iterator().next();
+
+        String titleRegex = d.getTitleRegex();
+        Pattern pattern = Pattern.compile(titleRegex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        Matcher matcher = pattern.matcher(htmlBody);
+
+        int count = 0;
+        while (matcher.find())
+            count++;
+
+        return count;
     }
 }

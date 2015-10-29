@@ -98,6 +98,7 @@ public class DealDownloaderService extends IntentService {
             unusedProvidersName.add(unusedProvider.getName());
         }
         boolean mustRemoveLinkedDeals = false;
+        Log.d(TAG, "subscribedProviders: " + providerManager.getSubscribedProviders());
         Log.d(TAG, "unusedProvidersName: " + unusedProvidersName.toString());
         dbHelper.deleteProviders(unusedProvidersName, mustRemoveLinkedDeals);
 
@@ -105,6 +106,7 @@ public class DealDownloaderService extends IntentService {
         dbHelper.deleteAllDeals();
         //TODO: add freshly parsed deals (ModelDeals) to DB
         for (ModelDeals deal : webscrappedDeals) {
+            Log.d(TAG, "createDeal: " + deal.toString());
             dbHelper.createDeal(deal);
         }
         /// END TRANSACTION
@@ -136,12 +138,13 @@ public class DealDownloaderService extends IntentService {
             ModelDeals d = new ModelDeals();
 
             d.setFk_provider_id(providerID);
-            d.setTitle(j.getString("title"));
-            d.setDescription(j.getString("description"));
-            d.setImage_url(j.getString("image_url"));
-            d.setPrice(parsePrice(j.getString("price")));
-            d.setOld_price(parsePrice(j.getString("oldprice")));
-            d.setLink(j.getString("link"));
+
+            d.setTitle(getOrNullAttr(j, "title"));
+            d.setDescription(getOrNullAttr(j, "description"));
+            d.setImage_url(getOrNullAttr(j, "image_url"));
+            d.setPrice(parsePrice(getOrNullAttr(j, "price")));
+            d.setOld_price(parsePrice(getOrNullAttr(j, "oldprice")));
+            d.setLink(getOrNullAttr(j, "link"));
 
             webscrappedDeals.add(d);
         }
@@ -156,10 +159,20 @@ public class DealDownloaderService extends IntentService {
         }
     }
 
-    public boolean isUserOnline() {
+    private boolean isUserOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private static String getOrNullAttr(JSONObject j, String attr) {
+        String value = null;
+        try {
+            value = j.getString(attr);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return value;
     }
 }
