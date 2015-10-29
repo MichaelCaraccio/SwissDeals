@@ -20,7 +20,7 @@ import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.database.models.ModelProviders;
 
-public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals>{
+public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
     private final Context context;
     private final List<ModelDeals> values;
     private final DatabaseHelper helper;
@@ -82,23 +82,27 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals>{
         crossOut = (ImageView) rowView.findViewById(R.id.crossOut);
 
 
-        ModelProviders provider = helper.getProvider(values.get(position).getFk_provider_id());
+        ModelDeals deal = values.get(position);
+        ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
 
         // TODO : insert image placeholder
         Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(dealFavicon);
 
         // TODO : insert image placeholder
         Picasso.with(context)
-                .load(values.get(position).getImage_url())
+                .load(deal.getImage_url())
                 .resize(300, 300)
                 .centerCrop()
                 .into(dealImage);
 
-        dealTitle.setText(values.get(position).getTitle().toUpperCase());
-        dealProviderName.setText(helper.getProviderNameFromID(values.get(position).getFk_provider_id()).toUpperCase());
-        dealDescription.setText(values.get(position).getDescription().toUpperCase());
-        dealCurrentPrice.setText(String.format("%.2f", values.get(position).getPrice()));
-        dealOldPrice.setText(String.format("%.2f", values.get(position).getOld_price()));
+        dealTitle.setText(deal.getTitle().toUpperCase());
+        dealProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
+        dealCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
+        dealOldPrice.setText(String.format("%.2f", deal.getOld_price()));
+
+        if (deal.getDescription() != null) {
+            dealDescription.setText(deal.getDescription().toUpperCase());
+        }
 
         crossOutOldPrice(getBitmapWidth(), 25, 0, getBitmapHeight() - 25, Color.parseColor("#FF4640"));
 
@@ -117,5 +121,6 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals>{
         c.drawLine(x, y, xend, yend, p);
         crossOut.setImageBitmap(bmp);
     }
+
 }
 
