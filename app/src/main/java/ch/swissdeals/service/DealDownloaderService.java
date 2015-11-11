@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -76,7 +77,10 @@ public class DealDownloaderService extends IntentService {
         Log.d(TAG, "subscribed providers: " + providerManager.getSubscribedProviders().toString());
         List<ModelDeals> webscrappedDeals = new ArrayList<>();
         //TODO: foreach -> call DealWebscrapper
-        for (String providerName : subscribedProviders) {
+        Iterator<String> subscribedProvidersIterator = subscribedProviders.iterator();
+        while (subscribedProvidersIterator.hasNext()) {
+            String providerName = subscribedProvidersIterator.next();
+
             //TODO: add or update existing providers (only thoses chosen by the user)
             ModelProviders pModel = providerManager.getModelProvider(providerName);
             dbHelper.createOrUpdateProvider(pModel);
@@ -171,7 +175,7 @@ public class DealDownloaderService extends IntentService {
         try {
             value = j.getString(attr);
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "getOrNullAttr: " + e.getMessage());
         }
         return value;
     }

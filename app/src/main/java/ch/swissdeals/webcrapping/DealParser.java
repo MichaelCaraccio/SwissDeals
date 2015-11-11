@@ -1,12 +1,21 @@
 package ch.swissdeals.webcrapping;
 
 public class DealParser {
+    private String dealAreaRegex;
     private String titleRegex;
     private String descriptionRegex;
     private String imageRegex;
     private String linkRegex;
     private String priceRegex;
     private String oldPriceRegex;
+
+    public String getDealAreaRegex() {
+        return dealAreaRegex;
+    }
+
+    public void setDealAreaRegex(String dealAreaRegex) {
+        this.dealAreaRegex = dealAreaRegex;
+    }
 
     public String getTitleRegex() {
         return titleRegex;
@@ -63,7 +72,8 @@ public class DealParser {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("DealParser{");
-        sb.append("titleRegex='").append(titleRegex).append('\'');
+        sb.append("dealAreaRegex='").append(dealAreaRegex).append('\'');
+        sb.append(", titleRegex='").append(titleRegex).append('\'');
         sb.append(", descriptionRegex='").append(descriptionRegex).append('\'');
         sb.append(", imageRegex='").append(imageRegex).append('\'');
         sb.append(", linkRegex='").append(linkRegex).append('\'');

@@ -6,6 +6,7 @@
       "url": "http://www.qoqa.ch/",
       "deals": [
         {
+          "deal_area_regex": "",
           "title_regex": "<title>QoQa.ch \\| ([\\w -]+)",
           "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
           "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
@@ -21,6 +22,7 @@
       "url": "https://www.digitec.ch/fr/LiveShopping",
       "deals": [
         {
+          "deal_area_regex": "<article class=\"product dday\"*[^<]*([\\s\\S]+?)<\/article>",
           "title_regex": "<span class=\"product-brand\">([\\w\\s,\\-()\\.&;#]+)</span>([\\w\\s,\\-()\\.&;#]+)",
           "description_regex": "",
           "image_regex": "<span class=\"responsive lazyload\".+<span data-src=\"(.+)\"",

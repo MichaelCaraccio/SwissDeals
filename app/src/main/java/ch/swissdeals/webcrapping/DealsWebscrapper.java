@@ -1,6 +1,7 @@
 package ch.swissdeals.webcrapping;
 
 import android.util.Log;
+import android.webkit.URLUtil;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,19 +53,40 @@ public class DealsWebscrapper {
 
         JSONArray jDealsArray = new JSONArray();
 
-        int availableDeals = getTodayAvailableDeals();
-        DealParser d = this.providerParser.iterator().next();
-        for (int i = 1; i < availableDeals; i++) {
-            JSONObject jDeal = new JSONObject();
+        Iterator<DealParser> dealParserIterator = this.providerParser.iterator();
 
-            jDeal.put("title", webscrape(d.getTitleRegex(), i));
-            jDeal.put("description", webscrape(d.getDescriptionRegex(), i));
-            jDeal.put("image_url", getRealLink(d.getImageRegex(), i));
-            jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex(), i)));
-            jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex(), i)));
-            jDeal.put("link", getRealLink(d.getLinkRegex(), i));
+        while (dealParserIterator.hasNext()) {
+            DealParser d = dealParserIterator.next();
 
-            jDealsArray.put(jDeal);
+            // we only try to find a deal inside a limited area (for instance a div tag)
+            // so in this area we should find all the information about one deal
+            // in we have multiple areas that match the area regex pattern, then we have
+            // multiple deals
+            String dealAreaRegex = d.getDealAreaRegex();
+            if (dealAreaRegex == null || dealAreaRegex.isEmpty())
+                dealAreaRegex = "<html*[^<]*([\\s\\S]+?)<\\/html>";
+
+            Pattern pattern = Pattern.compile(dealAreaRegex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            Matcher matcher = pattern.matcher(htmlBody);
+
+            while (matcher.find()) {
+                JSONObject jDeal = new JSONObject();
+
+                // group 1 because group 0 returns all the matched pattern
+                String htmlChunk = matcher.group(1);
+
+                jDeal.put("title", webscrape(d.getTitleRegex(), htmlChunk));
+                jDeal.put("description", webscrape(d.getDescriptionRegex(), htmlChunk));
+                jDeal.put("image_url", getRealLink(d.getImageRegex(), htmlChunk));
+                jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex(), htmlChunk)));
+                jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex(), htmlChunk)));
+                jDeal.put("link", getRealLink(d.getLinkRegex(), htmlChunk));
+
+                //TODO: use this regex to make groups (digitec only): <article*[^<]*([\s\S]+?)<\/article>
+                // new: <article class="product dday"*[^<]*([\s\S]+?)<\/article>
+
+                jDealsArray.put(jDeal);
+            }
         }
 
         jobj.put("deals", jDealsArray);
@@ -71,8 +94,13 @@ public class DealsWebscrapper {
         return jobj;
     }
 
-    private String getRealLink(String linkRegex, int i) {
-        String urlRegexed = webscrape(linkRegex, i);
+    private String getRealLink(String linkRegex, String htmlChunk) {
+        String urlRegexed = webscrape(linkRegex, htmlChunk);
+
+        if (URLUtil.isValidUrl(urlRegexed))
+            return urlRegexed;
+
+        Log.d(TAG, "urlRegexed: " + urlRegexed);
         try {
             if (!urlRegexed.startsWith("/")) {
                 return null;
@@ -102,22 +130,20 @@ public class DealsWebscrapper {
 
         Response response = client.newCall(request).execute();
         htmlBody = response.body().string();
-        Log.d(TAG, "raw: " + htmlBody);
+//        Log.d(TAG, "raw: " + htmlBody);
     }
 
-    private String webscrape(String regex, int occurrence) {
+    private String webscrape(String regex, String htmlChunk) {
         String result = null;
 
         Log.d(TAG, "regex: " + regex);
 
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-        Matcher matcher = pattern.matcher(htmlBody);
+        Matcher matcher = pattern.matcher(htmlChunk);
 
-        for (int i = 0; i < occurrence - 1; i++) {
-            matcher.find();
-        }
         if (matcher.find()) {
             // we start at 1 because group 0 contains all the regex
+            //FIXME: why do we NOT do: result += ..., but we do result = ..
             for (int i = 1; i <= matcher.groupCount(); i++) {
                 result = matcher.group(i) + " ";
             }

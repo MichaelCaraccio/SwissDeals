@@ -21,6 +21,7 @@ public class ProviderParserFactory {
             DealParser dealParser = new DealParser();
             JSONObject jDeal = jDeals.getJSONObject(i);
 
+            dealParser.setDealAreaRegex(getOrNullAttr(jDeal, "deal_area_regex"));
             dealParser.setTitleRegex(getOrNullAttr(jDeal, "title_regex"));
             dealParser.setDescriptionRegex(getOrNullAttr(jDeal, "description_regex"));
             dealParser.setImageRegex(getOrNullAttr(jDeal, "image_regex"));
