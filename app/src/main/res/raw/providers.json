@@ -31,6 +31,22 @@
           "oldprice_regex": "product-price-appendix\">avant ([-+]?[0-9]*\\.?[0-9]+)"
         }
       ]
+    },
+    {
+      "name": "QWine.ch",
+      "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qwine.png",
+      "url": "http://www.qwine.ch/",
+      "deals": [
+        {
+          "deal_area_regex": "",
+          "title_regex": "<title>Qwine.ch\\s+\\| ([\\s\\S]+?)<\\/title>",
+          "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
+          "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
+          "link_regex": "<link rel=\"canonical\" href=\"(.+)\"",
+          "price_regex": "qoqa-price\">[\\s]+([-+]?[0-9]*\\.?[0-9]+)",
+          "oldprice_regex": "<div class=price>([-+]?[0-9]*\\.?[0-9]+)"
+        }
+      ]
     }
   ]
 }
