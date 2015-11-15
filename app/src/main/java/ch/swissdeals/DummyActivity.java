@@ -50,36 +50,15 @@ public class DummyActivity extends AppCompatActivity {
                 }
         );
 
-        String providerID = "QoQa.ch";
-
-        //////////////////////////
-        // DealWebscrapper
-        //////////////////////////
-//        ProviderManager providerManager = ProviderManager.getInstance();
-//        try {
-//            providerManager.load(getApplicationContext());
-//
-//
-//            ProviderParser qoqaParser = providerManager.getProviderParser(providerID);
-//
-//            for (DealParser d : qoqaParser) {
-//                Log.d(TAG, d.toString());
-//            }
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (ProviderManager.NotLoadedException e) {
-//            e.printStackTrace();
-//        }
-
         try {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
-            providerManager.subscribe("QoQa.ch");
-            providerManager.subscribe("digitec.ch");
-            providerManager.subscribe("QWine.ch");
-            providerManager.subscribe("QSport.ch");
-            providerManager.subscribe("Qooking.ch");
+//            providerManager.subscribe("QoQa.ch");
+//            providerManager.subscribe("digitec.ch");
+//            providerManager.subscribe("QWine.ch");
+//            providerManager.subscribe("QSport.ch");
+//            providerManager.subscribe("Qooking.ch");
+            providerManager.subscribe("topdeal.ch");
 //            providerManager.subscribe("QoQa.ch");
 //            providerManager.subscribe("microspotYOLO.ch");
 //            providerManager.subscribe("deindeal.ch");
@@ -87,12 +66,24 @@ public class DummyActivity extends AppCompatActivity {
             providerManager.saveUserProviders(getApplicationContext());
 
             Log.d(TAG, providerManager.getSubscribedProviders().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
 
+
+        //////////////////////////
+        // DealWebscrapper
+        //////////////////////////
+
+//        String providerID = "topdeal.ch";
+//        try {
+//            DealsWebscrapper s = new DealsWebscrapper(providerID);
+//            JSONObject jDeals = s.getDeals();
+//            Log.d(TAG, jDeals.toString(2));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
 //        new AsyncTask<String, Void, Void>() {
 //
 //            @Override
@@ -104,13 +95,7 @@ public class DummyActivity extends AppCompatActivity {
 //                    JSONObject jDeals = webscrapper.getDeals();
 //
 //                    Log.d(TAG, "jDeals: " + jDeals.toString(4));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (ProviderManager.NotLoadedException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (ParserConfigurationException e) {
+//                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 //                return null;
