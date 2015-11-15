@@ -78,6 +78,7 @@ public class DummyActivity extends AppCompatActivity {
             providerManager.subscribe("QoQa.ch");
             providerManager.subscribe("digitec.ch");
             providerManager.subscribe("QWine.ch");
+            providerManager.subscribe("QSport.ch");
 //            providerManager.subscribe("QoQa.ch");
 //            providerManager.subscribe("microspotYOLO.ch");
 //            providerManager.subscribe("deindeal.ch");

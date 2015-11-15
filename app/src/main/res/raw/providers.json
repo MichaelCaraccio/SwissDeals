@@ -47,6 +47,22 @@
           "oldprice_regex": "<div class=price>([-+]?[0-9]*\\.?[0-9]+)"
         }
       ]
+    },
+    {
+      "name": "QSport.ch",
+      "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qs.png",
+      "url": "http://www.qsport.ch/",
+      "deals": [
+        {
+          "deal_area_regex": "",
+          "title_regex": "<title>QSport.ch\\s+\\| ([\\s\\S]+?)<\\/title>",
+          "description_regex": "<meta property=\"og:description\" content=\"(.+)\"",
+          "image_regex": "<meta property=\"og:image\" content=\"(.+)\"",
+          "link_regex": "<link rel=\"canonical\" href=\"(.+)\"",
+          "price_regex": "qoqa-price\">[\\s]+([-+]?[0-9]*\\.?[0-9]+)",
+          "oldprice_regex": "<div class=price>([-+]?[0-9]*\\.?[0-9]+)"
+        }
+      ]
     }
   ]
 }
