@@ -7,16 +7,16 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:fitsSystemWindows="true"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <!--android:background="@drawable/side_nav_bar"-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/mainColorBlue"
+        android:textColor="@color/colorWhite"
         android:textAlignment="center"
-        android:textSize="22dp"
+        android:textSize="22sp"
         android:text="You're following"/>
 
 
@@ -24,11 +24,11 @@
         android:textColor="@color/colorWhite"
         android:paddingTop="15dp"
         android:textAlignment="center"
-        android:textSize="45dp"
+        android:textSize="45sp"
         android:layout_marginTop="10dp"
         android:background="@drawable/circle"
         android:text="12"
-        android:paddingRight="3dp"
+        android:paddingRight="3sp"
         android:fontFamily="sans-serif-light"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -37,10 +37,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/mainColorBlue"
+        android:textColor="@color/colorWhite"
         android:textAlignment="center"
         android:layout_marginTop="5dp"
-        android:textSize="22dp"
+        android:textSize="22sp"
         android:text="websites"/>
 
 </LinearLayout>

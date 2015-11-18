@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:padding="10dip">
+
+    <!-- Lien cool pour les font-family -->
+    <!-- http://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android -->
+
+    <ImageView
+        android:id="@+id/popup_item_image"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@color/colorWhite"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:contentDescription="popup_image_offer"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/popup_item_providerName"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/mainColorRed"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:text="ProviderName"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/popup_item_image" />
+
+
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_download_white"
+        android:tint="@color/blue_normal"
+        android:id="@+id/popup_crossOut"/>
+
+</RelativeLayout>

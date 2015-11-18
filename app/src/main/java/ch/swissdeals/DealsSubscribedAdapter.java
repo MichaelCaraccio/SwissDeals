@@ -24,7 +24,18 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
     private final Context context;
     private final List<ModelDeals> values;
     private final DatabaseHelper helper;
-    ImageView crossOut;
+
+    private static class ViewHolder {
+        private TextView dealTitle;
+        private TextView dealProviderName;
+        private TextView dealDescription;
+        private TextView dealCurrentPrice;
+        private TextView dealOldPrice;
+        private ImageView dealImage;
+        private ImageView dealFavicon;
+        private ImageView crossOut;
+    }
+
     private int bitmapWidth;
     private int bitmapHeight;
     private int crossOutThickness;
@@ -62,64 +73,76 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        setBitmapHeight(80);
-        setBitmapWidth(200);
-        setCrossOutThickness(5);
-
-        View rowView = inflater.inflate(R.layout.item_deal, parent, false);
-        TextView dealTitle = (TextView) rowView.findViewById(R.id.item_title);
-        TextView dealProviderName = (TextView) rowView.findViewById(R.id.item_providerName);
-        TextView dealDescription = (TextView) rowView.findViewById(R.id.item_shortDescription);
-        TextView dealCurrentPrice = (TextView) rowView.findViewById(R.id.item_currentPrice);
-        TextView dealOldPrice = (TextView) rowView.findViewById(R.id.item_oldPrice);
-
-
-        ImageView dealImage = (ImageView) rowView.findViewById(R.id.item_image);
-        ImageView dealFavicon = (ImageView) rowView.findViewById(R.id.item_favicon);
-        crossOut = (ImageView) rowView.findViewById(R.id.crossOut);
-
-
+        ViewHolder mViewHolder;
         ModelDeals deal = values.get(position);
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
 
-        // TODO : insert image placeholder
-        Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(dealFavicon);
+        if(convertView == null){
+            mViewHolder = new ViewHolder();
 
-        // TODO : insert image placeholder
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            setBitmapHeight(80);
+            setBitmapWidth(200);
+            setCrossOutThickness(5);
+
+            convertView = inflater.inflate(R.layout.item_deal, parent, false);
+            mViewHolder.dealTitle = (TextView) convertView.findViewById(R.id.item_title);
+            mViewHolder.dealProviderName = (TextView) convertView.findViewById(R.id.item_providerName);
+            mViewHolder.dealDescription = (TextView) convertView.findViewById(R.id.item_shortDescription);
+            mViewHolder.dealCurrentPrice = (TextView) convertView.findViewById(R.id.item_currentPrice);
+            mViewHolder.dealOldPrice = (TextView) convertView.findViewById(R.id.item_oldPrice);
+            mViewHolder.dealImage = (ImageView) convertView.findViewById(R.id.item_image);
+            mViewHolder.dealFavicon = (ImageView) convertView.findViewById(R.id.item_favicon);
+            mViewHolder.crossOut = (ImageView) convertView.findViewById(R.id.crossOut);
+
+            if (!(Float.toString(deal.getOld_price()).equals("-1"))){
+                crossOutOldPrice(mViewHolder,getBitmapWidth(), 25, 0, getBitmapHeight() - 25, Color.parseColor("#FF4640"));
+            }
+
+            convertView.setTag(mViewHolder);
+
+        }else {
+            mViewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        // TODO : insert null with image placeholder
+        Picasso.with(context).load(provider != null ? provider.getFavicon_url() : null).resize(40, 40).into(mViewHolder.dealFavicon);
+
+        // TODO : insert image placeholder instead of null
         Picasso.with(context)
                 .load(deal.getImage_url())
                 .resize(300, 300)
                 .centerCrop()
-                .into(dealImage);
+                .into(mViewHolder.dealImage);
 
-        dealTitle.setText(deal.getTitle().toUpperCase());
-        dealProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
-        dealCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
-        dealOldPrice.setText(String.format("%.2f", deal.getOld_price()));
+        mViewHolder.dealTitle.setText(deal.getTitle().toUpperCase());
+        mViewHolder.dealProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
+        mViewHolder.dealCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
+
+        if (!(Float.toString(deal.getOld_price()).equals("-1")))
+            mViewHolder.dealOldPrice.setText(String.format("%.2f", deal.getOld_price()));
 
         if (deal.getDescription() != null) {
-            dealDescription.setText(deal.getDescription().toUpperCase());
+            mViewHolder.dealDescription.setText(deal.getDescription().toUpperCase());
         }
 
-        crossOutOldPrice(getBitmapWidth(), 25, 0, getBitmapHeight() - 25, Color.parseColor("#FF4640"));
-
-        return rowView;
+        return convertView;
     }
 
-    private void crossOutOldPrice(float x, float y, float xend, float yend, int color) {
+    private void crossOutOldPrice(ViewHolder mViewHolder, float x, float y, float xend, float yend, int color) {
 
         Bitmap bmp = Bitmap.createBitmap(getBitmapWidth(), getBitmapHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
-        crossOut.draw(c);
+        mViewHolder.crossOut.draw(c);
 
         Paint p = new Paint();
         p.setColor(color);
         p.setStrokeWidth((float) 5);
         c.drawLine(x, y, xend, yend, p);
-        crossOut.setImageBitmap(bmp);
+        mViewHolder.crossOut.setImageBitmap(bmp);
     }
 
 }

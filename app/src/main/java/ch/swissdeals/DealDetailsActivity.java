@@ -21,7 +21,6 @@ import ch.swissdeals.database.models.ModelProviders;
 
 public class DealDetailsActivity extends AppCompatActivity {
 
-    private int position;
     private DatabaseHelper helper;
     private ModelDeals deal;
     private int bitmapWidth;
@@ -57,6 +56,7 @@ public class DealDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal_details_fragment);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -67,10 +67,12 @@ public class DealDetailsActivity extends AppCompatActivity {
         this.helper = new DatabaseHelper(getApplicationContext());
 
         Intent i = getIntent();
-        position = i.getIntExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, 0);
+
+        int position = i.getIntExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, 0);
         deal = helper.getDeal(position);
 
         // Update action bar title
+        assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(helper.getProviderNameFromID(deal.getFk_provider_id()));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,6 +99,9 @@ public class DealDetailsActivity extends AppCompatActivity {
             }
         });
 
+        crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
+        crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
+
     }
 
     // Trick to get imageView height and width. onCreate method does not provide those properties
@@ -108,8 +113,7 @@ public class DealDetailsActivity extends AppCompatActivity {
         ImageView imagePrimaryImage = (ImageView) this.findViewById(R.id.detail_primaryImage);
         ImageView imageFavicon = (ImageView) this.findViewById(R.id.detail_favicon);
 
-        crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
-        crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
+
 
 
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());

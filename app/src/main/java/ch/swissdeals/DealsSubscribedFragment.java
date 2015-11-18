@@ -27,14 +27,6 @@ import ch.swissdeals.database.models.ModelDeals;
  */
 public class DealsSubscribedFragment extends Fragment implements AbsListView.OnItemClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private List<ModelDeals> listdeals;
     public static final String POSITION_MAIN_LIST = "DealsSubscribedFragment.list.position";
 
@@ -56,8 +48,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     public static DealsSubscribedFragment newInstance(String param1, String param2) {
         DealsSubscribedFragment fragment = new DealsSubscribedFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,11 +66,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         Context ctx = getActivity().getApplicationContext();
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
         // Get user's deals
         DatabaseHelper db = new DatabaseHelper(ctx);
         listdeals = db.getAllDeals();
@@ -98,7 +83,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         mListView.setAdapter(mAdapter);
 
-
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
@@ -109,8 +93,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
 
     @Override

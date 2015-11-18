@@ -18,18 +18,17 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true">
-
+        android:layout_gravity="start">
 
 
         <!--<include layout="@layout/nav_header_main"/>-->
         <!-- Framelayout to display Fragments -->
         <FrameLayout
             android:id="@+id/frame_container"
-            android:background="@drawable/cellbackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/cellbackground" />
 
         <include layout="@layout/nav_header_main" />
 
@@ -37,15 +36,14 @@
         <ListView
             android:id="@+id/list_slidermenu"
             android:layout_width="260dp"
-            android:layout_marginTop="220dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:layout_marginTop="220dp"
             android:choiceMode="singleChoice"
+            android:dividerHeight="0dp"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:dividerHeight="0dp">
-        </ListView>
+            android:headerDividersEnabled="false"/>
 
-        </android.support.design.widget.NavigationView>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

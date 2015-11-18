@@ -18,7 +18,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,7 +28,7 @@
         <activity
             android:name="ch.swissdeals.DealDetailsActivity"
             android:label="@string/title_activity_deal_details_fragment"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBarDealDetail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.swissdeals.MainActivity" />
