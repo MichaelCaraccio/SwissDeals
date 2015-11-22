@@ -50,20 +50,21 @@ public class NavDrawerListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.nav_drawer_list_item, null);
         }
 
-        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.image);
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.providerName);
-        ImageView txtCount = (ImageView) convertView.findViewById(R.id.counter);
+        ImageView navFavicon = (ImageView) convertView.findViewById(R.id.nav_favicon);
+        TextView navProviderName = (TextView) convertView.findViewById(R.id.nav_providerName);
+        ImageView navAddOrDelSub = (ImageView) convertView.findViewById(R.id.nav_AddOrDelSub);
+        TextView navCounter = (TextView) convertView.findViewById(R.id.nav_counter);
 
-        imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-        txtTitle.setText(navDrawerItems.get(position).getTitle());
+        navFavicon.setImageResource(navDrawerItems.get(position).getIcon());
+        navProviderName.setText(navDrawerItems.get(position).getTitle());
 
         // displaying count
         // check whether it set visible or not
         if (navDrawerItems.get(position).getCounterVisibility()) {
-            txtCount.setText(navDrawerItems.get(position).getCount());
+            navCounter.setText(navDrawerItems.get(position).getCount());
         } else {
             // hide the counter view
-            txtCount.setVisibility(View.GONE);
+            navCounter.setVisibility(View.GONE);
         }
 
         return convertView;

@@ -7,36 +7,43 @@
 
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/nav_favicon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:src="@android:drawable/btn_star_big_on"
         android:contentDescription="@string/desc_list_item_icon"/>
 
     <TextView
-        android:id="@+id/providerName"
+        android:id="@+id/nav_providerName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/image"
+        android:layout_toEndOf="@+id/nav_favicon"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingEnd="40dp"
-        android:paddingStart="0dp"
-        android:layout_toStartOf="@+id/counter"
+        android:layout_toStartOf="@+id/nav_counter"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/colorWhite" />
 
-    <ImageView
-        android:id="@+id/counter"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/nav_counter"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="8dp"
         android:textColor="@color/colorWhite"
-        android:contentDescription="@string/LayoutDownloadOrDeleteSubscription" />
+        android:contentDescription="@string/LayoutDownloadOrDeleteSubscription"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/nav_AddOrDelSub" />
+
+    <ImageView
+        android:id="@+id/nav_AddOrDelSub"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:src="@mipmap/ic_download_white"
+        />
 
 </RelativeLayout>
