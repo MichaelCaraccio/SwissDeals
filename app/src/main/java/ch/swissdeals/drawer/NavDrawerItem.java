@@ -6,34 +6,29 @@ package ch.swissdeals.drawer;
 public class NavDrawerItem {
 
     private String title;
-    private int icon;
-    private String count = "0";
+    private String icon;
+    private int count = 0;
+    private int isSubscribed = 0;
     // boolean to set visiblity of the counter
     private boolean isCounterVisible = false;
 
-    public NavDrawerItem(){}
-
-    public NavDrawerItem(String title, int icon){
-        this.title = title;
-        this.icon = icon;
-    }
-
-    public NavDrawerItem(String title, int icon, boolean isCounterVisible, String count){
+    public NavDrawerItem(String title, String icon, boolean isCounterVisible, int count, int isSubscribed){
         this.title = title;
         this.icon = icon;
         this.isCounterVisible = isCounterVisible;
         this.count = count;
+        this.isSubscribed = isSubscribed;
     }
 
     public String getTitle(){
         return this.title;
     }
 
-    public int getIcon(){
+    public String getIcon(){
         return this.icon;
     }
 
-    public String getCount(){
+    public int getCount(){
         return this.count;
     }
 
@@ -45,11 +40,11 @@ public class NavDrawerItem {
         this.title = title;
     }
 
-    public void setIcon(int icon){
+    public void setIcon(String icon){
         this.icon = icon;
     }
 
-    public void setCount(String count){
+    public void setCount(int count){
         this.count = count;
     }
 

@@ -13,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import ch.swissdeals.R;
@@ -55,13 +57,14 @@ public class NavDrawerListAdapter extends BaseAdapter {
         ImageView navAddOrDelSub = (ImageView) convertView.findViewById(R.id.nav_AddOrDelSub);
         TextView navCounter = (TextView) convertView.findViewById(R.id.nav_counter);
 
-        navFavicon.setImageResource(navDrawerItems.get(position).getIcon());
+        Picasso.with(context).load(navDrawerItems.get(position).getIcon()).resize(40, 40).into(navFavicon);
+
         navProviderName.setText(navDrawerItems.get(position).getTitle());
 
         // displaying count
         // check whether it set visible or not
         if (navDrawerItems.get(position).getCounterVisibility()) {
-            navCounter.setText(navDrawerItems.get(position).getCount());
+            navCounter.setText(Integer.toString(navDrawerItems.get(position).getCount()));
         } else {
             // hide the counter view
             navCounter.setVisibility(View.GONE);
