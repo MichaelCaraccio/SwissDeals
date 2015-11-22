@@ -80,18 +80,26 @@ public class DealDetailsActivity extends AppCompatActivity {
         TextView textCurrentPrice = (TextView) this.findViewById(R.id.detail_currentPrice);
         TextView textOldPrice = (TextView) this.findViewById(R.id.detail_oldPrice);
         TextView textTitle = (TextView) this.findViewById(R.id.detail_title);
+        TextView textTitleDealDescription = (TextView) this.findViewById(R.id.detail_titleDealDescription);
         TextView textLongDescription = (TextView) this.findViewById(R.id.detail_longDescription);
         TextView textWebsiteRedirect = (TextView) this.findViewById(R.id.detail_website_redirect);
 
-
         textProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
         textCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
-        textOldPrice.setText(String.format("%.2f", deal.getOld_price()));
         textTitle.setText(deal.getTitle().toUpperCase());
-        textLongDescription.setText(deal.getDescription());
+
+        if(deal.getDescription()==null || deal.getDescription().isEmpty()){
+            textTitleDealDescription.setVisibility(View.GONE);
+            textLongDescription.setVisibility(View.GONE);
+        }
+        else{
+            textTitleDealDescription.setText("Description de l'offre");
+            textLongDescription.setText(deal.getDescription());
+        }
 
         // Redirect button
-        textWebsiteRedirect.setText("Se rendre sur " + helper.getProviderNameFromID(deal.getFk_provider_id()));
+        textWebsiteRedirect.setText(getString(R.string.DealDetailWebsiteRedirect, helper.getProviderNameFromID(deal.getFk_provider_id())));
+
         textWebsiteRedirect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(deal.getLink()));
@@ -99,8 +107,11 @@ public class DealDetailsActivity extends AppCompatActivity {
             }
         });
 
-        crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
-        crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
+        if (!(Float.toString(deal.getOld_price()).equals("-1.0"))) {
+            textOldPrice.setText(String.format("%.2f", deal.getOld_price()));
+            crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
+            crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
+        }
 
     }
 
@@ -112,9 +123,6 @@ public class DealDetailsActivity extends AppCompatActivity {
 
         ImageView imagePrimaryImage = (ImageView) this.findViewById(R.id.detail_primaryImage);
         ImageView imageFavicon = (ImageView) this.findViewById(R.id.detail_favicon);
-
-
-
 
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
 

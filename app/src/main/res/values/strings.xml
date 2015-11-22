@@ -35,4 +35,5 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="DealDetailWebsiteRedirect">"Se rendre sur %s"</string>
 </resources>

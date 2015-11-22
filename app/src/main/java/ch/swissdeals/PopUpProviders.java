@@ -58,5 +58,4 @@ public class PopUpProviders extends DialogFragment {
 
         return v;
     }
-
 }
