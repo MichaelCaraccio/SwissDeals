@@ -73,17 +73,15 @@ public class DealDownloaderService extends IntentService {
         providerManager.load(ctx);
 
         //TODO: getSubscribedProviders()
-        Iterable<String> subscribedProviders = providerManager.getSubscribedProviders();
-        Log.d(TAG, "subscribed providers: " + providerManager.getSubscribedProviders().toString());
+        Iterable<ModelProviders> subscribedProviders = dbHelper.getSubscribedProviders();
+        Log.d(TAG, "subscribed providers: " + subscribedProviders.toString());
         List<ModelDeals> webscrappedDeals = new ArrayList<>();
         //TODO: foreach -> call DealWebscrapper
-        Iterator<String> subscribedProvidersIterator = subscribedProviders.iterator();
+        Iterator<ModelProviders> subscribedProvidersIterator = subscribedProviders.iterator();
         while (subscribedProvidersIterator.hasNext()) {
-            String providerName = subscribedProvidersIterator.next();
 
-            //TODO: add or update existing providers (only thoses chosen by the user)
-            ModelProviders pModel = providerManager.getModelProvider(providerName);
-            dbHelper.createOrUpdateProvider(pModel);
+            ModelProviders mProvider = subscribedProvidersIterator.next();
+            String providerName = mProvider.getName();
 
             DealsWebscrapper webscrapper = new DealsWebscrapper(providerName);
             JSONObject jDeals = webscrapper.getDeals();
@@ -94,18 +92,6 @@ public class DealDownloaderService extends IntentService {
         }
 
         /// TRANSACTION
-        //TODO: remove unused providers (AND ITS DEALS !!! (no cascade delete), not necessary if TRUNCATE)
-
-        Iterable<ModelProviders> unusedProviders = providerManager.getUnusedProviders();
-        List<String> unusedProvidersName = new ArrayList<>();
-        for (ModelProviders unusedProvider : unusedProviders) {
-            unusedProvidersName.add(unusedProvider.getName());
-        }
-        boolean mustRemoveLinkedDeals = false;
-        Log.d(TAG, "subscribedProviders: " + providerManager.getSubscribedProviders());
-        Log.d(TAG, "unusedProvidersName: " + unusedProvidersName.toString());
-        dbHelper.deleteProviders(unusedProvidersName, mustRemoveLinkedDeals);
-
         //TODO: remove all existing deals (TRUNCATE)
         dbHelper.deleteAllDeals();
         //TODO: add freshly parsed deals (ModelDeals) to DB
@@ -142,7 +128,6 @@ public class DealDownloaderService extends IntentService {
             ModelDeals d = new ModelDeals();
 
             d.setFk_provider_id(providerID);
-
             d.setTitle(getOrNullAttr(j, "title"));
             d.setDescription(getOrNullAttr(j, "description"));
             d.setImage_url(getOrNullAttr(j, "image_url"));

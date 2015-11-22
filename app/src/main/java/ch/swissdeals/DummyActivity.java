@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.service.DealDownloaderService;
 
 
@@ -53,20 +54,19 @@ public class DummyActivity extends AppCompatActivity {
         try {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
-//            providerManager.subscribe("QoQa.ch");
-//            providerManager.subscribe("digitec.ch");
-//            providerManager.subscribe("QWine.ch");
-//            providerManager.subscribe("QSport.ch");
-//            providerManager.subscribe("Qooking.ch");
+            providerManager.subscribe("QoQa.ch");
+            providerManager.subscribe("digitec.ch");
+            providerManager.subscribe("QWine.ch");
+            providerManager.subscribe("QSport.ch");
+            providerManager.subscribe("Qooking.ch");
             providerManager.subscribe("topdeal.ch");
 //            providerManager.subscribe("QoQa.ch");
 //            providerManager.subscribe("microspotYOLO.ch");
 //            providerManager.subscribe("deindeal.ch");
 
-            providerManager.saveUserProviders(getApplicationContext());
-
-            Log.d(TAG, providerManager.getSubscribedProviders().toString());
-        } catch (JSONException | IOException e) {
+            DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+            Log.d(TAG, dbHelper.getSubscribedProviders().toString());
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

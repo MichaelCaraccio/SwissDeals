@@ -32,6 +32,7 @@ import ch.swissdeals.drawer.NavDrawerListAdapter;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DealsSubscribedFragment.OnFragmentInteractionListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private ListView mDrawerList;
     //private ActionBarDrawerToggle mDrawerToggle;
@@ -73,10 +74,8 @@ public class MainActivity extends AppCompatActivity
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         final List<ModelProviders> listproviders = db.getAllProviders();
 
-        for (ModelProviders provider: listproviders)
-            navDrawerItems.add(new NavDrawerItem(provider.getName(), provider.getFavicon_url(), true, 11 ,1));
-
-
+        for (ModelProviders provider : listproviders)
+            navDrawerItems.add(new NavDrawerItem(provider.getName(), provider.getFavicon_url(), true, 11, 1));
 
 
         // Recycle the typed array
@@ -103,10 +102,8 @@ public class MainActivity extends AppCompatActivity
             providerManager.subscribe("Qooking.ch");
             providerManager.subscribe("Qsport.ch");
             providerManager.subscribe("Qsport.ch");
-
-            providerManager.saveUserProviders(getApplicationContext());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
 
@@ -117,8 +114,8 @@ public class MainActivity extends AppCompatActivity
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
 
-                    DialogFragment newFragment = new PopUpProviders();
-                    newFragment.show(getSupportFragmentManager(), "popup");
+                DialogFragment newFragment = new PopUpProviders();
+                newFragment.show(getSupportFragmentManager(), "popup");
 
             }
         });
