@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:background="@drawable/cellbackground" />
+            android:background="@color/colorBlack"/>
 
         <include layout="@layout/nav_header_main" />
 
