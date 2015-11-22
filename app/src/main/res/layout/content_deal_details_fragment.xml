@@ -22,7 +22,8 @@
             android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/LayoutFavicon" />
 
         <TextView
             android:id="@+id/detail_providerName"
@@ -45,7 +46,9 @@
             android:layout_toStartOf="@+id/detail_oldPrice"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:paddingRight="30dp"
+            android:layout_toEndOf="@id/detail_providerName"
+            android:paddingStart="0dp"
+            android:paddingEnd="30dp"
             android:textColor="@color/mainColorBlue"
             android:textSize="40sp" />
 
@@ -57,7 +60,8 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif-thin"
             android:gravity="center"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="0dp"
             android:paddingTop="10sp"
             android:textColor="@color/mainColorRed"
             android:textSize="23sp" />
@@ -82,7 +86,8 @@
             android:layout_alignEnd="@+id/detail_title"
             android:layout_alignStart="@+id/detail_favicon"
             android:layout_below="@+id/detail_title"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/LayoutDealImage" />
 
         <TextView
             android:id="@+id/detail_titleDealDescription"
@@ -119,7 +124,8 @@
             android:layout_alignEnd="@+id/detail_oldPrice"
             android:layout_alignTop="@+id/detail_currentPrice"
             android:layout_toEndOf="@+id/detail_currentPrice"
-            android:paddingTop="10sp" />
+            android:paddingTop="10sp"
+            android:contentDescription="@string/LayoutCrossout" />
 
         <Button
             android:id="@+id/detail_website_redirect"
@@ -130,7 +136,6 @@
             android:layout_marginTop="20sp"
             android:background="@drawable/flat_selector"
             android:layout_marginBottom="20sp"
-            android:text="Voir deal"
             android:textColor="@android:color/white" />
 
     </RelativeLayout>

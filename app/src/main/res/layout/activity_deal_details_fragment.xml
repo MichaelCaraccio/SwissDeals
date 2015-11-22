@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mainColorBlue"
-        android:backgroundTint="@color/mainColorBlue"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -20,15 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:backgroundTint="@color/mainColorBlue"
-
             android:background="@color/mainColorBlue"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_deal_details_fragment" />
-
 
 </android.support.design.widget.CoordinatorLayout>
 

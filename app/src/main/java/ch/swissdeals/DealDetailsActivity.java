@@ -93,7 +93,7 @@ public class DealDetailsActivity extends AppCompatActivity {
             textLongDescription.setVisibility(View.GONE);
         }
         else{
-            textTitleDealDescription.setText("Description de l'offre");
+            textTitleDealDescription.setText(R.string.DealDetailsTitleDealDescription);
             textLongDescription.setText(deal.getDescription());
         }
 
