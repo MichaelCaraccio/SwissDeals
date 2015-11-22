@@ -98,7 +98,7 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
             mViewHolder.dealFavicon = (ImageView) convertView.findViewById(R.id.item_favicon);
             mViewHolder.crossOut = (ImageView) convertView.findViewById(R.id.crossOut);
 
-            if (!(Float.toString(deal.getOld_price()).equals("-1.0"))){
+            if (deal.getOld_price() != -1.0) {
                 crossOutOldPrice(mViewHolder,getBitmapWidth(), 25, 0, getBitmapHeight() - 25, Color.parseColor("#FF4640"));
             }
 
@@ -122,12 +122,11 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
         mViewHolder.dealProviderName.setText(helper.getProviderNameFromID(deal.getFk_provider_id()).toUpperCase());
         mViewHolder.dealCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
 
-        if (!(Float.toString(deal.getOld_price()).equals("-1.0")))
+        if (deal.getOld_price() != -1.0)
             mViewHolder.dealOldPrice.setText(String.format("%.2f", deal.getOld_price()));
 
-        if (deal.getDescription() != null) {
+        if (deal.getDescription() != null)
             mViewHolder.dealDescription.setText(deal.getDescription().toUpperCase());
-        }
 
         return convertView;
     }

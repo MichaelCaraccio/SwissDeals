@@ -107,7 +107,7 @@ public class DealDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (!(Float.toString(deal.getOld_price()).equals("-1.0"))) {
+        if (deal.getOld_price() != -1.0) {
             textOldPrice.setText(String.format("%.2f", deal.getOld_price()));
             crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
             crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
