@@ -29,6 +29,7 @@ public class ModelProviders {
     private String name;
     private String url;
     private String favicon_url;
+    private boolean userSubscribed;
 
     public static final int DEFAULT_ID = -1;
 
@@ -68,6 +69,14 @@ public class ModelProviders {
         this.favicon_url = favicon_url;
     }
 
+    public boolean isUserSubscribed() {
+        return userSubscribed;
+    }
+
+    public void setUserSubscribed(boolean userSubscribed) {
+        this.userSubscribed = userSubscribed;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ModelProviders{");
@@ -75,6 +84,7 @@ public class ModelProviders {
         sb.append(", name='").append(name).append('\'');
         sb.append(", url='").append(url).append('\'');
         sb.append(", favicon_url='").append(favicon_url).append('\'');
+        sb.append(", userSubscribed=").append(userSubscribed);
         sb.append('}');
         return sb.toString();
     }

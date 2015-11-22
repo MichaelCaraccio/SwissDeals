@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_PROVIDERS_NAME = "name";
     private static final String KEY_PROVIDERS_URL = "url";
     private static final String KEY_PROVIDERS_FAVICON_URL = "favicon_url";
+    private static final String KEY_PROVIDERS_SUBSCRIBE = "subscribed";
 
     // Table Create Statements
     private static final String CREATE_TABLE_DEALS = "CREATE TABLE " + TABLE_DEALS + " ( "
@@ -60,7 +61,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_PROVIDERS_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
             + KEY_PROVIDERS_NAME + " TEXT NOT NULL UNIQUE, "
             + KEY_PROVIDERS_URL + " TEXT NOT NULL, "
-            + KEY_PROVIDERS_FAVICON_URL + " TEXT)";
+            + KEY_PROVIDERS_FAVICON_URL + " TEXT, "
+            + KEY_PROVIDERS_SUBSCRIBE + " INTEGER)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -247,6 +249,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PROVIDERS_NAME, provider.getName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
+        values.put(KEY_PROVIDERS_SUBSCRIBE, provider.isUserSubscribed());
 
         // insert row - return confirmation id
         return db.insert(TABLE_PROVIDERS, null, values);
@@ -260,27 +263,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return ModelProviders
      */
     public synchronized ModelProviders getProvider(String provider_name) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
-                + KEY_PROVIDERS_NAME + " = " + '"' + provider_name + '"';
-
-        Log.e(LOG, selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        //TODO: check if c.getCount() > 0 ?
-        if (c != null)
-            c.moveToFirst();
-
-        ModelProviders td = new ModelProviders();
-        assert c != null;
-        td.setProvider_id(c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)));
-        td.setName(c.getString(c.getColumnIndex(KEY_PROVIDERS_NAME)));
-        td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
-        td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
-
-        return td;
+        int providerId = getProviderIDFromName(provider_name);
+        return getProvider(providerId);
     }
 
     /**
@@ -296,7 +280,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + KEY_PROVIDERS_ID + " = " + '"' + provider_id + '"';
 
         Log.e(LOG, selectQuery);
-
         Cursor c = db.rawQuery(selectQuery, null);
 
         //TODO: check if c.getCount() > 0 ?
@@ -310,9 +293,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
         td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
 
+        boolean isUserSubscribed = isUserSubscribed(c);
+        td.setUserSubscribed(isUserSubscribed);
+
         return td;
     }
-
 
     /**
      * Get provider
@@ -377,6 +362,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
                 td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
 
+                boolean isUserSubscribed = isUserSubscribed(c);
+                td.setUserSubscribed(isUserSubscribed);
+
                 providers.add(td);
             } while (c.moveToNext());
         }
@@ -399,6 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PROVIDERS_NAME, provider.getName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
+        values.put(KEY_PROVIDERS_SUBSCRIBE, provider.isUserSubscribed());
 
         // updating row
         return db.update(TABLE_PROVIDERS, values, KEY_PROVIDERS_ID + " = ?",
@@ -436,7 +425,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param cascadeRemove
      */
     public synchronized void deleteProviders(List<String> listProviderName, boolean cascadeRemove) {
-        if(listProviderName.isEmpty())
+        if (listProviderName.isEmpty())
             return;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -516,5 +505,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // TODO si retourne null cela signifie que le provider_name n'est pas inscrit dans la base
         // de donnée. Peut-être qu'il est mal orthographié?
         return null;
+    }
+
+    /**
+     * Warning only works if SELECT * XXXX is used because we rely on the column's position
+     * in the query
+     *
+     * @param c cursor on a SELECT * XXXX
+     * @return true if the user is subscribed for this provider, false otherwise
+     */
+    private boolean isUserSubscribed(Cursor c) {
+        boolean isUserSubscribed = false;
+        int subscribedCol = c.getColumnIndex(KEY_PROVIDERS_SUBSCRIBE);
+        if (!c.isNull(subscribedCol) && c.getInt(subscribedCol) != 0) {
+            isUserSubscribed = true;
+        }
+        return isUserSubscribed;
     }
 }
