@@ -1,7 +1,7 @@
 {
   "providers": [
     {
-      "name": "QoQa.ch",
+      "name": "qoqa.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/qoqa_app.png",
       "url": "http://www.qoqa.ch/",
       "deals": [
@@ -33,7 +33,7 @@
       ]
     },
     {
-      "name": "QWine.ch",
+      "name": "qwine.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qwine.png",
       "url": "http://www.qwine.ch/",
       "deals": [
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "name": "QSport.ch",
+      "name": "qsport.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qs.png",
       "url": "http://www.qsport.ch/",
       "deals": [
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "name": "Qooking.ch",
+      "name": "qooking.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/logos/flat/qooking_ch.png",
       "url": "http://www.qooking.ch/",
       "deals": [

@@ -96,12 +96,12 @@ public class MainActivity extends AppCompatActivity
         try {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
-            providerManager.subscribe("QoQa.ch");
+            providerManager.subscribe("qoqa.ch");
             providerManager.subscribe("digitec.ch");
             providerManager.subscribe("topdeal.ch");
-            providerManager.subscribe("Qooking.ch");
-            providerManager.subscribe("Qsport.ch");
-            providerManager.subscribe("Qsport.ch");
+            providerManager.subscribe("qooking.ch");
+            providerManager.subscribe("qsport.ch");
+            providerManager.subscribe("qsport.ch");
         } catch (Exception e) {
             e.printStackTrace();
         }

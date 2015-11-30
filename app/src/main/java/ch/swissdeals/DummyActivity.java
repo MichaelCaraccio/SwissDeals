@@ -54,14 +54,14 @@ public class DummyActivity extends AppCompatActivity {
         try {
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.load(getApplicationContext());
-            providerManager.subscribe("QoQa.ch");
+            providerManager.subscribe("qoqa.ch");
             providerManager.subscribe("digitec.ch");
-            providerManager.subscribe("QWine.ch");
+            providerManager.subscribe("qwine.ch");
             providerManager.subscribe("QSport.ch");
-            providerManager.subscribe("Qooking.ch");
+            providerManager.subscribe("qooking.ch");
             providerManager.subscribe("topdeal.ch");
-//            providerManager.subscribe("QoQa.ch");
-//            providerManager.subscribe("microspotYOLO.ch");
+//            providerManager.subscribe("qoqa.ch");
+//            providerManager.subscribe("microspotyolo.ch");
 //            providerManager.subscribe("deindeal.ch");
 
             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
