@@ -28,7 +28,7 @@
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/popup_crossOut"
+        android:layout_toStartOf="@+id/popup_downloadOrDelete"
         android:layout_toEndOf="@+id/popup_item_image" />
 
     <ImageView
@@ -39,7 +39,7 @@
         android:layout_marginEnd="10dp"
         android:src="@mipmap/ic_download_white"
         android:tint="@color/blue_normal"
-        android:id="@+id/popup_crossOut"
+        android:id="@+id/popup_downloadOrDelete"
         android:contentDescription="@string/LayoutDownloadOrDeleteSubscription" />
 
 </RelativeLayout>

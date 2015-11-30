@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -18,6 +19,8 @@ import ch.swissdeals.database.models.ModelProviders;
 
 
 public class PopUpProviders extends DialogFragment {
+
+    private DatabaseHelper db;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -34,7 +37,7 @@ public class PopUpProviders extends DialogFragment {
         Context ctx = getActivity().getApplicationContext();
 
         // Get user's deals
-        DatabaseHelper db = new DatabaseHelper(ctx);
+        db = new DatabaseHelper(ctx);
         final List<ModelProviders> listproviders = db.getAllProviders();
 
         // Set the adapter
@@ -49,11 +52,24 @@ public class PopUpProviders extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ModelProviders pro = listproviders.get(position);
-                pro.setName("test");
+
+                ImageView imageDownloadOrDelete=(ImageView) view.findViewById(R.id.popup_downloadOrDelete);  //replace with your ImageView id
+
+                if(pro.isUserSubscribed()) {
+                    pro.setUserSubscribed(false);
+                    db.unsubscribeProvider(pro.getProvider_id());
+                    imageDownloadOrDelete.setImageResource(R.mipmap.ic_download_white);
+                } else {
+                    pro.setUserSubscribed(true);
+                    db.subscribeProvider(pro.getProvider_id());
+                    imageDownloadOrDelete.setImageResource(R.mipmap.ic_remove);
+                }
+
                 mAdapter.notifyDataSetChanged();
             }
         });
 
+        db.unsubscribeProvider(1);
         builder.setTitle("Edit providers").setView(v);
 
         return v;

@@ -48,7 +48,7 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
             mViewHolder.favicon = (ImageView) convertView.findViewById(R.id.popup_item_image);
 
             // TODO : if provider subscribed -> cross icon, else -> download icon
-            mViewHolder.download_icon = (ImageView) convertView.findViewById(R.id.popup_crossOut);
+            mViewHolder.download_icon = (ImageView) convertView.findViewById(R.id.popup_downloadOrDelete);
             convertView.setTag(mViewHolder);
 
         }else{
@@ -61,11 +61,14 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
         // TODO : insert image placeholder
         Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(mViewHolder.favicon);
 
-        mViewHolder.provider_name.setText(provider.getDisplayName());
 
-        int id = this.context.getResources().getIdentifier("@drawable/ic_remove", null, null);
+        if(provider.isUserSubscribed()){
+            mViewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
+        }else{
+            mViewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
+        }
+        mViewHolder.provider_name.setText(provider.getName());
 
-        mViewHolder.download_icon.setImageResource(id);
         return convertView;
     }
 }
