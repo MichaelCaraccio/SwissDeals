@@ -15,10 +15,11 @@ public class ModelProviders {
     }
 
     // TODO ajouter display_name
-    public ModelProviders(String name, String url, String favicon_url) {
+    public ModelProviders(String name, String url, String favicon_url, String category) {
         this.name = name;
         this.url = url;
         this.favicon_url = favicon_url;
+        this.category = category;
     }
 
     // ****************************************************************************
@@ -29,6 +30,7 @@ public class ModelProviders {
     private String name;
     private String url;
     private String favicon_url;
+    private String category;
     private boolean userSubscribed;
 
     public static final int DEFAULT_ID = -1;
@@ -69,6 +71,14 @@ public class ModelProviders {
         this.favicon_url = favicon_url;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public boolean isUserSubscribed() {
         return userSubscribed;
     }
@@ -84,6 +94,7 @@ public class ModelProviders {
         sb.append(", name='").append(name).append('\'');
         sb.append(", url='").append(url).append('\'');
         sb.append(", favicon_url='").append(favicon_url).append('\'');
+        sb.append(", category='").append(category).append('\'');
         sb.append(", userSubscribed=").append(userSubscribed);
         sb.append('}');
         return sb.toString();

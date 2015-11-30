@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_PROVIDERS_NAME = "name";
     private static final String KEY_PROVIDERS_URL = "url";
     private static final String KEY_PROVIDERS_FAVICON_URL = "favicon_url";
+    private static final String KEY_PROVIDERS_CATEGORY = "category";
     private static final String KEY_PROVIDERS_SUBSCRIBED = "subscribed";
 
     // Table Create Statements
@@ -62,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_PROVIDERS_NAME + " TEXT NOT NULL UNIQUE, "
             + KEY_PROVIDERS_URL + " TEXT NOT NULL, "
             + KEY_PROVIDERS_FAVICON_URL + " TEXT, "
+            + KEY_PROVIDERS_CATEGORY + " TEXT, "
             + KEY_PROVIDERS_SUBSCRIBED + " INTEGER)";
 
     public DatabaseHelper(Context context) {
@@ -245,6 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PROVIDERS_NAME, provider.getName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
+        values.put(KEY_PROVIDERS_CATEGORY, provider.getCategory());
         values.put(KEY_PROVIDERS_SUBSCRIBED, provider.isUserSubscribed());
 
         // insert row - return confirmation id
@@ -395,6 +398,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PROVIDERS_NAME, provider.getName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
+        values.put(KEY_PROVIDERS_CATEGORY, provider.getCategory());
 
         /*
         We specifically don't want to update the subscribed column.
@@ -532,6 +536,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         td.setName(c.getString(c.getColumnIndex(KEY_PROVIDERS_NAME)));
         td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
         td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
+        td.setCategory(c.getString(c.getColumnIndex(KEY_PROVIDERS_CATEGORY)));
 
         boolean isUserSubscribed = isUserSubscribed(c);
         td.setUserSubscribed(isUserSubscribed);

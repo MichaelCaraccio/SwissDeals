@@ -14,7 +14,8 @@ public class ProviderParserFactory {
         String providerID = jobj.getString("name");
         String url = jobj.getString("url");
         String faviconUrl = jobj.getString("favicon_url");
-        ProviderParser provider = new ProviderParser(providerID, url, faviconUrl);
+        String category = jobj.getString("category");
+        ProviderParser provider = new ProviderParser(providerID, url, faviconUrl, category);
 
         JSONArray jDeals = jobj.getJSONArray("deals");
         for (int i = 0; i < jDeals.length(); i++) {

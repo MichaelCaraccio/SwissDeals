@@ -4,6 +4,7 @@
       "name": "qoqa.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/qoqa_app.png",
       "url": "http://www.qoqa.ch/",
+      "category": "general",
       "deals": [
         {
           "deal_area_regex": "",
@@ -20,6 +21,7 @@
       "name": "digitec.ch",
       "favicon_url": "https://www.digitec.ch/portalimage/25/touch-icon-android.png",
       "url": "https://www.digitec.ch/fr/LiveShopping",
+      "category": "electronics",
       "deals": [
         {
           "deal_area_regex": "<article class=\"product dday\"*[^<]*([\\s\\S]+?)<\/article>",
@@ -36,6 +38,7 @@
       "name": "qwine.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qwine.png",
       "url": "http://www.qwine.ch/",
+      "category": "santé",
       "deals": [
         {
           "deal_area_regex": "",
@@ -52,6 +55,7 @@
       "name": "qsport.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qs.png",
       "url": "http://www.qsport.ch/",
+      "category": "sport",
       "deals": [
         {
           "deal_area_regex": "",
@@ -68,6 +72,7 @@
       "name": "qooking.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/logos/flat/qooking_ch.png",
       "url": "http://www.qooking.ch/",
+      "category": "cuisine",
       "deals": [
         {
           "deal_area_regex": "",
@@ -84,6 +89,7 @@
       "name": "topdeal.ch",
       "favicon_url": "http://www.topdeal.ch/static/images/logo-black.png",
       "url": "http://www.topdeal.ch/",
+      "category": "",
       "deals": [
         {
           "deal_area_regex": "eal-box (?!hidden)\"*[^<]*([\\s\\S]+?<\\/div>[\\s\\S]+?<\\/p>[\\s\\S]+?<\\/a>)",

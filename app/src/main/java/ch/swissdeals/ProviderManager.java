@@ -130,8 +130,9 @@ public class ProviderManager {
             String providerName = pParser.getProviderID();
             String url = pParser.getUrl();
             String favicon_url = pParser.getFaviconUrl();
+            String category = pParser.getCategory();
 
-            ModelProviders mProvider = new ModelProviders(providerName, url, favicon_url);
+            ModelProviders mProvider = new ModelProviders(providerName, url, favicon_url, category);
             this.dbHelper.createOrUpdateProvider(mProvider);
 
             providersToKeep.add(providerName);
