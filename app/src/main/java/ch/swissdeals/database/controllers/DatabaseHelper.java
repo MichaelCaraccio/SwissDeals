@@ -41,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Providers Table - column names
     private static final String KEY_PROVIDERS_ID = "provider_id";
     private static final String KEY_PROVIDERS_NAME = "name";
+    private static final String KEY_PROVIDERS_DISPLAY_NAME = "display_name";
     private static final String KEY_PROVIDERS_URL = "url";
     private static final String KEY_PROVIDERS_FAVICON_URL = "favicon_url";
     private static final String KEY_PROVIDERS_CATEGORY = "category";
@@ -61,6 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_PROVIDERS = "CREATE TABLE " + TABLE_PROVIDERS + " ( "
             + KEY_PROVIDERS_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
             + KEY_PROVIDERS_NAME + " TEXT NOT NULL UNIQUE, "
+            + KEY_PROVIDERS_DISPLAY_NAME + " TEXT NOT NULL UNIQUE, "
             + KEY_PROVIDERS_URL + " TEXT NOT NULL, "
             + KEY_PROVIDERS_FAVICON_URL + " TEXT, "
             + KEY_PROVIDERS_CATEGORY + " TEXT, "
@@ -245,6 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_PROVIDERS_NAME, provider.getName());
+        values.put(KEY_PROVIDERS_DISPLAY_NAME, provider.getDisplayName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
         values.put(KEY_PROVIDERS_CATEGORY, provider.getCategory());
@@ -396,6 +399,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_PROVIDERS_NAME, provider.getName());
+        values.put(KEY_PROVIDERS_DISPLAY_NAME, provider.getDisplayName());
         values.put(KEY_PROVIDERS_URL, provider.getUrl());
         values.put(KEY_PROVIDERS_FAVICON_URL, provider.getFavicon_url());
         values.put(KEY_PROVIDERS_CATEGORY, provider.getCategory());
@@ -534,6 +538,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ModelProviders td = new ModelProviders();
         td.setProvider_id(c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)));
         td.setName(c.getString(c.getColumnIndex(KEY_PROVIDERS_NAME)));
+        td.setDisplayName(c.getString(c.getColumnIndex(KEY_PROVIDERS_DISPLAY_NAME)));
         td.setUrl(c.getString(c.getColumnIndex(KEY_PROVIDERS_URL)));
         td.setFavicon_url(c.getString(c.getColumnIndex(KEY_PROVIDERS_FAVICON_URL)));
         td.setCategory(c.getString(c.getColumnIndex(KEY_PROVIDERS_CATEGORY)));

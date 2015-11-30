@@ -2,6 +2,7 @@
   "providers": [
     {
       "name": "qoqa.ch",
+      "display_name": "QoQa.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/qoqa_app.png",
       "url": "http://www.qoqa.ch/",
       "category": "general",
@@ -19,6 +20,7 @@
     },
     {
       "name": "digitec.ch",
+      "display_name": "Digitec.ch",
       "favicon_url": "https://www.digitec.ch/portalimage/25/touch-icon-android.png",
       "url": "https://www.digitec.ch/fr/LiveShopping",
       "category": "electronics",
@@ -36,6 +38,7 @@
     },
     {
       "name": "qwine.ch",
+      "display_name": "QWine.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qwine.png",
       "url": "http://www.qwine.ch/",
       "category": "santé",
@@ -53,6 +56,7 @@
     },
     {
       "name": "qsport.ch",
+      "display_name": "QSport.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/icons/avatar_qs.png",
       "url": "http://www.qsport.ch/",
       "category": "sport",
@@ -70,6 +74,7 @@
     },
     {
       "name": "qooking.ch",
+      "display_name": "Qooking.ch",
       "favicon_url": "http://static.qoqa.com/frontend3/images/logos/flat/qooking_ch.png",
       "url": "http://www.qooking.ch/",
       "category": "cuisine",
@@ -87,6 +92,7 @@
     },
     {
       "name": "topdeal.ch",
+      "display_name": "TopDeal.ch",
       "favicon_url": "http://www.topdeal.ch/static/images/logo-black.png",
       "url": "http://www.topdeal.ch/",
       "category": "",

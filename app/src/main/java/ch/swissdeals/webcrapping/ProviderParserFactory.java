@@ -12,10 +12,11 @@ public class ProviderParserFactory {
 
     public static ProviderParser fromJSON(JSONObject jobj) throws JSONException {
         String providerID = jobj.getString("name");
+        String displayName = jobj.getString("display_name");
         String url = jobj.getString("url");
         String faviconUrl = jobj.getString("favicon_url");
         String category = jobj.getString("category");
-        ProviderParser provider = new ProviderParser(providerID, url, faviconUrl, category);
+        ProviderParser provider = new ProviderParser(providerID, displayName, url, faviconUrl, category);
 
         JSONArray jDeals = jobj.getJSONArray("deals");
         for (int i = 0; i < jDeals.length(); i++) {

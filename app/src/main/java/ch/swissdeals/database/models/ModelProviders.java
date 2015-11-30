@@ -15,8 +15,9 @@ public class ModelProviders {
     }
 
     // TODO ajouter display_name
-    public ModelProviders(String name, String url, String favicon_url, String category) {
+    public ModelProviders(String name, String displayName, String url, String favicon_url, String category) {
         this.name = name;
+        this.displayName = displayName;
         this.url = url;
         this.favicon_url = favicon_url;
         this.category = category;
@@ -28,6 +29,7 @@ public class ModelProviders {
 
     private int provider_id;
     private String name;
+    private String displayName;
     private String url;
     private String favicon_url;
     private String category;
@@ -53,6 +55,14 @@ public class ModelProviders {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getUrl() {
@@ -92,6 +102,7 @@ public class ModelProviders {
         final StringBuilder sb = new StringBuilder("ModelProviders{");
         sb.append("provider_id=").append(provider_id);
         sb.append(", name='").append(name).append('\'');
+        sb.append(", displayName='").append(displayName).append('\'');
         sb.append(", url='").append(url).append('\'');
         sb.append(", favicon_url='").append(favicon_url).append('\'');
         sb.append(", category='").append(category).append('\'');

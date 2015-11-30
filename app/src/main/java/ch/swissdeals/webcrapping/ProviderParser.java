@@ -7,13 +7,15 @@ import java.util.List;
 public class ProviderParser implements Iterable<DealParser> {
 
     private final String providerID;
+    private final String displayName;
     private final String url;
     private final String faviconUrl;
     private final String category;
     private List<DealParser> dealParsers;
 
-    public ProviderParser(String providerID, String url, String faviconUrl, String category) {
+    public ProviderParser(String providerID, String displayName, String url, String faviconUrl, String category) {
         this.providerID = providerID;
+        this.displayName = displayName;
         this.url = url;
         this.faviconUrl = faviconUrl;
         this.category = category;
@@ -34,6 +36,10 @@ public class ProviderParser implements Iterable<DealParser> {
         return providerID;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -50,6 +56,7 @@ public class ProviderParser implements Iterable<DealParser> {
     public String toString() {
         final StringBuilder sb = new StringBuilder("ProviderParser{");
         sb.append("providerID='").append(providerID).append('\'');
+        sb.append(", displayName='").append(displayName).append('\'');
         sb.append(", url='").append(url).append('\'');
         sb.append(", faviconUrl='").append(faviconUrl).append('\'');
         sb.append(", category='").append(category).append('\'');

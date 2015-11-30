@@ -61,7 +61,7 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
         // TODO : insert image placeholder
         Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(mViewHolder.favicon);
 
-        mViewHolder.provider_name.setText(provider.getName());
+        mViewHolder.provider_name.setText(provider.getDisplayName());
 
         int id = this.context.getResources().getIdentifier("@drawable/ic_remove", null, null);
 

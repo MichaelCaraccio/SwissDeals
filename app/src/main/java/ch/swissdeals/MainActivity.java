@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         final List<ModelProviders> listproviders = db.getAllProviders();
 
         for (ModelProviders provider : listproviders)
-            navDrawerItems.add(new NavDrawerItem(provider.getName(), provider.getFavicon_url(), true, 11, 1));
+            navDrawerItems.add(new NavDrawerItem(provider.getDisplayName(), provider.getFavicon_url(), true, 11, 1));
 
 
         // Recycle the typed array

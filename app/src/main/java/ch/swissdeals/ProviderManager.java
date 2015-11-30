@@ -58,7 +58,7 @@ public class ProviderManager {
 
     /**
      * Returns a ProviderParser from a providerID.
-     * <p>
+     * <p/>
      * Result can be null !
      *
      * @param providerID
@@ -128,11 +128,12 @@ public class ProviderManager {
 
         for (ProviderParser pParser : providerParsers) {
             String providerName = pParser.getProviderID();
+            String displayName = pParser.getDisplayName();
             String url = pParser.getUrl();
             String favicon_url = pParser.getFaviconUrl();
             String category = pParser.getCategory();
 
-            ModelProviders mProvider = new ModelProviders(providerName, url, favicon_url, category);
+            ModelProviders mProvider = new ModelProviders(providerName, displayName, url, favicon_url, category);
             this.dbHelper.createOrUpdateProvider(mProvider);
 
             providersToKeep.add(providerName);
