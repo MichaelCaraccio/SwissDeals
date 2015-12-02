@@ -4,14 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,20 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ch.swissdeals.database.controllers.DatabaseHelper;
-import ch.swissdeals.database.models.ModelProviders;
-import ch.swissdeals.drawer.NavDrawerItem;
-import ch.swissdeals.drawer.NavDrawerListAdapter;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DealsSubscribedFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private DrawerLayout drawer;
-    private ListView mDrawerList;
+
     //private ActionBarDrawerToggle mDrawerToggle;
 
     // nav drawer title
@@ -43,13 +31,7 @@ public class MainActivity extends AppCompatActivity
     // used to store app title
     private CharSequence mTitle;
     private TextView menuTitle;
-
-    // slide menu items
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
-
-    private ArrayList<NavDrawerItem> navDrawerItems;
-    private NavDrawerListAdapter adapter;
+    private SDDrawer drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,35 +40,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // load slide menu items
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
-        // nav drawer icons from resources
-        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
-
-        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-
-        navDrawerItems = new ArrayList<NavDrawerItem>();
-
-        // adding nav drawer items to array
-
-        // Get user's deals
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        final List<ModelProviders> listproviders = db.getAllProviders();
-
-        for (ModelProviders provider : listproviders)
-            navDrawerItems.add(new NavDrawerItem(provider.getDisplayName(), provider.getFavicon_url(), true, 11, 1));
-
-
-        // Recycle the typed array
-        navMenuIcons.recycle();
-
-        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-
-        // setting the nav drawer list adapter
-        // TODO : Override method
-        adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-        mDrawerList.setAdapter(adapter);
+        this.drawer = new SDDrawer(this, toolbar);
+        drawer.setOnItemClickListener(new SlideMenuClickListener());
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
@@ -120,11 +75,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -147,8 +97,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawer.getDrawer().isDrawerOpen(GravityCompat.START)) {
+            drawer.getDrawer().closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -197,7 +147,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.getDrawer().closeDrawer(GravityCompat.START);
         return true;
     }
 
