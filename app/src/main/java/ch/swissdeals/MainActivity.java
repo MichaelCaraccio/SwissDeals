@@ -2,7 +2,10 @@ package ch.swissdeals;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,12 +14,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DealsSubscribedFragment.OnFragmentInteractionListener {
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private CharSequence mTitle;
     private TextView menuTitle;
     private SDDrawer drawer;
+    private BroadcastReceiver newDealsReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,21 @@ public class MainActivity extends AppCompatActivity
         DealsSubscribedFragment dealsSubscribedFragment = new DealsSubscribedFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.fragment_container, dealsSubscribedFragment).commit();
+
+        /*
+        listen to DealDownloaderService and refresh the deal list
+        when the service has inserted new deals in database
+         */
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED");
+
+        newDealsReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refreshDealsList();
+            }
+        };
+        registerReceiver(newDealsReceiver, filter);
     }
 
     /**
@@ -253,5 +274,15 @@ public class MainActivity extends AppCompatActivity
         //mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(newDealsReceiver);
+        super.onDestroy();
+    }
+
+    private void refreshDealsList() {
+        Toast.makeText(getApplicationContext(), "TODO refresh deals in GUI", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "TODO refresh deals in GUI");
+    }
 }
 

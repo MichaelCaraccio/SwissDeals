@@ -114,7 +114,15 @@ public class DealDownloaderService extends IntentService {
 
         Log.d(TAG, "Je suis couru !");
 
+        broadcastResult();
+
         Log.d(TAG, "persisted providers: " + dbHelper.getAllProviders().toString());
+    }
+
+    private void broadcastResult() {
+        Intent i = new Intent();
+        i.setAction("ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED");
+        sendBroadcast(i);
     }
 
     private void parseDeals(JSONObject jDeals, List<ModelDeals> webscrappedDeals) throws JSONException {
