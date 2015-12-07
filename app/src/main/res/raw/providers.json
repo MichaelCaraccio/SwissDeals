@@ -98,11 +98,11 @@
       "category": "",
       "deals": [
         {
-          "deal_area_regex": "eal-box (?!hidden)\"*[^<]*([\\s\\S]+?<\\/div>[\\s\\S]+?<\\/p>[\\s\\S]+?<\\/a>)",
-          "title_regex": "data-original-title=\"([\\s\\S]+?)\">",
+          "deal_area_regex": "<div class=\"page-content\"([\\s\\S]+)<!-- Hot deal -->",
+          "title_regex": "<h4>([\\s\\S]+)<\/h4>",
           "description_regex": "",
-          "image_regex": "<img src=\"((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s\"]*))\"",
-          "link_regex": "<a href=\"([\\s\\S]+?)\"",
+          "image_regex": "<img src=\"([\\s\\S]+)\" class",
+          "link_regex": "href=\"([\\s\\S]+?)\">",
           "price_regex": "<p class=\"discount\"> CHF <span class=\"big\">([-+]?[0-9]*\\.?[0-9]+)",
           "oldprice_regex": "<p class=\"original\">au lieu de CHF ([-+]?[0-9]*\\.?[0-9]+)"
         }
