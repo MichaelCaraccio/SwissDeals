@@ -56,23 +56,6 @@ public class NavDrawerListAdapter extends ArrayAdapter<ModelProviders> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        /*
-        if (convertView == null) {
-
-            LayoutInflater mInflater = (LayoutInflater)
-                    context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.nav_drawer_list_item, null);
-        }
-
-        ImageView navFavicon = (ImageView) convertView.findViewById(R.id.nav_favicon);
-        TextView navProviderName = (TextView) convertView.findViewById(R.id.nav_providerName);
-        ImageView navAddOrDelSub = (ImageView) convertView.findViewById(R.id.nav_AddOrDelSub);
-        TextView navCounter = (TextView) convertView.findViewById(R.id.nav_counter);
-
-        Picasso.with(context).load(navDrawerItems.get(position).getIcon()).resize(40, 40).into(navFavicon);
-
-        navProviderName.setText(navDrawerItems.get(position).getTitle());
-    */
 
         ViewHolderPopUp mViewHolder;
 
@@ -108,9 +91,7 @@ public class NavDrawerListAdapter extends ArrayAdapter<ModelProviders> {
         }
         mViewHolder.provider_name.setText(provider.getDisplayName());
 
-
         mViewHolder.navCounter.setText(db.countDealWithProviderID(provider.getProvider_id()));
-
 
         return convertView;
     }

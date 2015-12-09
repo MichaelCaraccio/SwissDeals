@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class SDDrawer {
     private DrawerLayout drawer;
     private DatabaseHelper db;
     private List<ModelProviders> listproviders;
+    private TextView countSubscription;
+    private TextView nav_website_text;
 
     public SDDrawer(final MainActivity hostActivity, Toolbar toolbar) {
         Context mContext = hostActivity.getApplicationContext();
@@ -37,15 +40,8 @@ public class SDDrawer {
         db = new DatabaseHelper(mContext);
         listproviders = db.getAllProviders();
 
-        // adding nav drawer items to array
-       // ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<>();
-        //for (ModelProviders provider : listproviders)
-        //navDrawerItems.add(listproviders);
-
-
         // Recycle the typed array
         navMenuIcons.recycle();
-
 
         // setting the nav drawer list adapter
         // TODO : Override method
@@ -64,11 +60,13 @@ public class SDDrawer {
                 }
         };
 
-
-
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Update subscription counter
+        countSubscription = (TextView) getDrawer().findViewById(R.id.nav_countSubscriptions);
+        nav_website_text = (TextView) getDrawer().findViewById(R.id.nav_text_website);
+        updateSubscriptions();
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,9 +85,23 @@ public class SDDrawer {
                     imageDownloadOrDelete.setImageResource(R.mipmap.ic_remove);
                 }
 
+                // Update subscription counter
+                updateSubscriptions();
+
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    // Update text and subsription
+    public void updateSubscriptions(){
+        String nbSub = db.countSubscriptions();
+        if(Integer.parseInt(nbSub) < 2){
+            nav_website_text.setText("website");
+        }else{
+            nav_website_text.setText("websites");
+        }
+        countSubscription.setText(nbSub);
     }
 
     public DrawerLayout getDrawer() {

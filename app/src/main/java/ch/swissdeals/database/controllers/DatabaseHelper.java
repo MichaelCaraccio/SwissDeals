@@ -386,6 +386,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c != null ? String.valueOf(c.getInt(0)) : "";
     }
 
+    public String countSubscriptions() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT count(*) FROM " + TABLE_PROVIDERS + " WHERE "
+                + KEY_PROVIDERS_SUBSCRIBED + " = '1'";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c != null ? String.valueOf(c.getInt(0)) : "";
+    }
+
     // TODO Compter le nombre de d'inscription
 
     public synchronized String getProviderNameFromID(int provider_id) {

@@ -1,6 +1,5 @@
 package ch.swissdeals;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,17 +13,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DealsSubscribedFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -48,11 +42,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         this.drawer = new SDDrawer(this, toolbar);
-
-        if (savedInstanceState == null) {
-            // on first time display view for first nav item
-            displayView(0);
-        }
 
         try {
             ProviderManager providerManager = ProviderManager.getInstance();
@@ -81,7 +70,6 @@ public class MainActivity extends AppCompatActivity
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         dealsSubscribedFragment = new DealsSubscribedFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -101,17 +89,6 @@ public class MainActivity extends AppCompatActivity
             }
         };
         registerReceiver(newDealsReceiver, filter);
-    }
-
-    /**
-     * @param position
-     */
-    @Override
-    public void onFragmentInteraction(int position) {
-        Intent dealFragment = new Intent(getApplicationContext(), DealDetailsActivity.class);
-        dealFragment.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
-
-        startActivity(dealFragment);
     }
 
     @Override
@@ -146,42 +123,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        drawer.getDrawer().closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    /**
-     * Slide menu item click listener
-     */
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // display view for selected nav drawer item
-            displayView(position);
-        }
-    }
-
     /***
      * Called when invalidateOptionsMenu() is triggered
      */
@@ -191,66 +132,6 @@ public class MainActivity extends AppCompatActivity
         //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         //menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    /**
-     * Diplaying fragment view for selected nav drawer list item
-     */
-    private void displayView(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = null;
-        switch (position) {
-            case 0:
-                //fragment = new HomeFragment();
-                break;
-            case 1:
-                //fragment = new FindPeopleFragment();
-                break;
-            case 2:
-                //fragment = new PhotosFragment();
-                break;
-            case 3:
-                //fragment = new CommunityFragment();
-                break;
-            case 4:
-                //fragment = new PagesFragment();
-                break;
-            case 5:
-                //fragment = new WhatsHotFragment();
-                break;
-
-            default:
-                break;
-        }
-
-        //TODO Controler le click du drawer
-        /*if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container,fragment).commit();
-
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);
-            setTitle(navMenuTitles[position]);
-            //mDrawerLayout.closeDrawer(mDrawerList);
-        } else {
-            // error in creating
-            DealsSubscribedFragment subscribedFragment = new DealsSubscribedFragment();
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, subscribedFragment);
-            //transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-            Log.e("MainActivity", "Error in creating lol fragment");
-        }*/
     }
 
     @Override
@@ -279,9 +160,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void refreshDealsList() {
-        Toast.makeText(getApplicationContext(), "TODO refresh deals in GUI", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "TODO refresh deals in GUI");
-
         dealsSubscribedFragment.updateAdapter();
     }
 }
