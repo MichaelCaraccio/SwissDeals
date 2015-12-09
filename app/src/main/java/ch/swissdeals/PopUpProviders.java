@@ -80,23 +80,15 @@ public class PopUpProviders extends DialogFragment {
                 ModelProviders pro = listproviders.get(position);
 
                 ImageView imageDownloadOrDelete=(ImageView) view.findViewById(R.id.popup_downloadOrDelete);  //replace with your ImageView id
-                Log.d("test", "SELECTED: "+pro.getName());
 
                 if(pro.isUserSubscribed()) {
                     pro.setUserSubscribed(false);
                     db.unsubscribeProvider(pro.getProvider_id());
                     imageDownloadOrDelete.setImageResource(R.mipmap.ic_download_white);
-                    Log.d("test", "isUserSubscribed");
                 } else {
                     pro.setUserSubscribed(true);
                     db.subscribeProvider(pro.getProvider_id());
                     imageDownloadOrDelete.setImageResource(R.mipmap.ic_remove);
-
-                    Log.d("test", "*************************************");
-                    List<ModelProviders> l = db.getSubscribedProviders();
-                    for (ModelProviders p: l) {
-                        Log.d("test", p.getDisplayName());
-                    }
                 }
 
                 mAdapter.notifyDataSetChanged();

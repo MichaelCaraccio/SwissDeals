@@ -370,6 +370,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c != null && c.getCount() > 0 ? c.getInt(c.getColumnIndex(KEY_PROVIDERS_ID)) : ModelProviders.DEFAULT_ID;
     }
 
+    public String countDealWithProviderID(int providerId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT count(*) FROM " + TABLE_DEALS + " WHERE "
+                + KEY_DEALS_FK_PROVIDER_ID + " = '" + providerId + "'";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c != null ? String.valueOf(c.getInt(0)) : "";
+    }
+
     // TODO Compter le nombre de d'inscription
 
     public synchronized String getProviderNameFromID(int provider_id) {

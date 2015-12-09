@@ -53,7 +53,6 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
 
         }else{
             mViewHolder = (ViewHolderPopUp) convertView.getTag();
-
         }
 
         ModelProviders provider = values.get(position);

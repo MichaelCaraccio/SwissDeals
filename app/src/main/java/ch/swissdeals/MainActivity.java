@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         this.drawer = new SDDrawer(this, toolbar);
-        drawer.setOnItemClickListener(new SlideMenuClickListener());
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
@@ -60,9 +59,7 @@ public class MainActivity extends AppCompatActivity
             providerManager.load(getApplicationContext());
             providerManager.subscribe("qoqa.ch");
             providerManager.subscribe("digitec.ch");
-            providerManager.subscribe("topdeal.ch");
             providerManager.subscribe("qooking.ch");
-            providerManager.subscribe("qsport.ch");
             providerManager.subscribe("qsport.ch");
         } catch (Exception e) {
             e.printStackTrace();
