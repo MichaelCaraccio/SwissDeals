@@ -43,4 +43,6 @@
     <string name="LayoutDownloadOrDeleteSubscription">Download or Delete subscription</string>
     <string name="LayoutYoureFollowing">You\'re following</string>
     <string name="Layout_Nav_Header_Website">websites</string>
+    <string name="popup_cancel">Cancel</string>
+    <string name="popup_update">Update</string>
 </resources>

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private TextView menuTitle;
     private SDDrawer drawer;
     private BroadcastReceiver newDealsReceiver;
+    private DealsSubscribedFragment dealsSubscribedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
 
-                DialogFragment newFragment = new PopUpProviders();
+                DialogFragment newFragment = new PopUpProviders(MainActivity.this);
                 newFragment.show(getSupportFragmentManager(), "popup");
 
             }
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        DealsSubscribedFragment dealsSubscribedFragment = new DealsSubscribedFragment();
+        dealsSubscribedFragment = new DealsSubscribedFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.fragment_container, dealsSubscribedFragment).commit();
 
@@ -280,9 +281,11 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    private void refreshDealsList() {
+    public void refreshDealsList() {
         Toast.makeText(getApplicationContext(), "TODO refresh deals in GUI", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "TODO refresh deals in GUI");
+
+        dealsSubscribedFragment.updateAdapter();
     }
 }
 

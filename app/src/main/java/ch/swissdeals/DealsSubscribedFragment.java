@@ -29,7 +29,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
     private List<ModelDeals> listdeals;
     public static final String POSITION_MAIN_LIST = "DealsSubscribedFragment.list.position";
-
+    private Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,13 +64,20 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         super.onCreate(savedInstanceState);
 
-        Context ctx = getActivity().getApplicationContext();
+        ctx = getActivity().getApplicationContext();
+        updateAdapter();
+    }
 
+    public void updateAdapter() {
         // Get user's deals
         DatabaseHelper db = new DatabaseHelper(ctx);
-        listdeals = db.getAllDeals();
+        listdeals = db.getAllDealsSubscribed();
 
         mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
+
+        if(mListView != null)
+            mListView.setAdapter(mAdapter);
+
     }
 
     @Override

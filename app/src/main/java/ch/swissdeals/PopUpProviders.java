@@ -5,10 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -21,6 +23,11 @@ import ch.swissdeals.database.models.ModelProviders;
 public class PopUpProviders extends DialogFragment {
 
     private DatabaseHelper db;
+    private MainActivity parent;
+
+    public PopUpProviders(MainActivity mainActivity){
+        this.parent = mainActivity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -43,6 +50,25 @@ public class PopUpProviders extends DialogFragment {
         // Set the adapter
         ListView mListView = (ListView) v.findViewById(R.id.popup_content_deal_list);
 
+        Button btn_cancel = (Button) v.findViewById(R.id.popup_btn_cancel);
+        Button btn_update = (Button) v.findViewById(R.id.popup_btn_update);
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.refreshDealsList();
+                getDialog().dismiss();
+            }
+        });
+
+
         // Set the list in Adapter
         final DealsPopupAdapter mAdapter = new DealsPopupAdapter(ctx, listproviders);
 
@@ -54,15 +80,23 @@ public class PopUpProviders extends DialogFragment {
                 ModelProviders pro = listproviders.get(position);
 
                 ImageView imageDownloadOrDelete=(ImageView) view.findViewById(R.id.popup_downloadOrDelete);  //replace with your ImageView id
+                Log.d("test", "SELECTED: "+pro.getName());
 
                 if(pro.isUserSubscribed()) {
                     pro.setUserSubscribed(false);
                     db.unsubscribeProvider(pro.getProvider_id());
                     imageDownloadOrDelete.setImageResource(R.mipmap.ic_download_white);
+                    Log.d("test", "isUserSubscribed");
                 } else {
                     pro.setUserSubscribed(true);
                     db.subscribeProvider(pro.getProvider_id());
                     imageDownloadOrDelete.setImageResource(R.mipmap.ic_remove);
+
+                    Log.d("test", "*************************************");
+                    List<ModelProviders> l = db.getSubscribedProviders();
+                    for (ModelProviders p: l) {
+                        Log.d("test", p.getDisplayName());
+                    }
                 }
 
                 mAdapter.notifyDataSetChanged();

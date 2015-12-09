@@ -162,6 +162,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Get all deals
+     *
+     * @return List of ModelDeals
+     */
+    public synchronized List<ModelDeals> getAllDealsSubscribed() {
+        String selectQuery = "SELECT * FROM " + TABLE_DEALS + " WHERE "+TABLE_DEALS+"."+KEY_DEALS_FK_PROVIDER_ID+" IN(SELECT " + TABLE_PROVIDERS+ "."+ KEY_PROVIDERS_ID + " FROM "+TABLE_PROVIDERS+" WHERE " +TABLE_PROVIDERS+"."+KEY_PROVIDERS_SUBSCRIBED+ " == 1)";
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        return getModelDeals(c);
+    }
+
+    /**
      * Get deals from provider name
      *
      * @param provider_name
