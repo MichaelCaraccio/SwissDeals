@@ -13,20 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ch.swissdeals.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/action_bar_main_title"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="ch.swissdeals.DealsSubscribedActivity"
+            android:name=".DealsSubscribedActivity"
             android:label="@string/title_activity_deals_subscribed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="ch.swissdeals.DealDetailsActivity"
+            android:name=".DealDetailsActivity"
             android:label="@string/title_activity_deal_details_fragment"
             android:theme="@style/AppTheme.NoActionBarDealDetail">
             <meta-data
@@ -34,7 +29,7 @@
                 android:value="ch.swissdeals.MainActivity" />
         </activity>
         <activity
-            android:name="ch.swissdeals.DummyActivity"
+            android:name=".DummyActivity"
             android:label="@string/action_bar_main_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -50,6 +45,15 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBarDealDetail">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
