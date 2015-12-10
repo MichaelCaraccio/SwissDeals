@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -89,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         registerReceiver(newDealsReceiver, filter);
+    }
+
+    /**
+     * @param position
+     */
+    @Override
+    public void onFragmentInteraction(int position) {
+        Intent dealFragment = new Intent(getApplicationContext(), DealDetailsActivity.class);
+        dealFragment.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
+
+        startActivity(dealFragment);
     }
 
     @Override

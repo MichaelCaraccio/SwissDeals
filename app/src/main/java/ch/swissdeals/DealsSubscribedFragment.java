@@ -107,6 +107,18 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         super.onAttach(context);
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
