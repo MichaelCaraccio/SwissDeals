@@ -2,6 +2,7 @@ package ch.swissdeals;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,9 @@ import org.json.JSONException;
 import ch.swissdeals.prefs.SwissDealsPrefs;
 import ch.swissdeals.service.DealDownloaderService;
 
-public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener, ProvidersListFragment.OnFragmentInteractionListener {
 
-    private PopUpProviders fragment;
+    private ProvidersListFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             startNextActivity();
         }
 
-        this.fragment = (PopUpProviders) getSupportFragmentManager().findFragmentById(R.id.welcome_deal_subscribed_fragment);
+        this.fragment = (ProvidersListFragment) getSupportFragmentManager().findFragmentById(R.id.welcome_deal_subscribed_fragment);
         this.fragment.updateListColorTheme(DealsPopupAdapter.ColorTheme.WHITE);
 
         Button btnGo = (Button) findViewById(R.id.go_button);
@@ -78,5 +79,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //nothing
     }
 }

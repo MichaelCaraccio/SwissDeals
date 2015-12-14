@@ -1,42 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
-    android:layout_height="wrap_content" tools:context="ch.swissdeals.PopUpProviders"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ch.swissdeals.PopUpProviders">
+
+    <fragment
+        android:id="@+id/popup_list_providers_fragment"
+        android:name="ch.swissdeals.ProvidersListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@null" />
 
     <LinearLayout
-        android:id="@+id/popup_linearlayout_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top">
-        <ListView
-            android:layout_width="fill_parent"
-            android:id="@+id/popup_content_deal_list"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-
-    <LinearLayout
+        android:id="@+id/popup_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/popup_linearLayout"
-        android:layout_below="@id/popup_linearlayout_top"
         android:layout_gravity="bottom">
 
-
-    <Button
+        <Button
+            android:id="@+id/popup_btn_cancel"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/popup_cancel"
             android:layout_gravity="left"
-            android:id="@+id/popup_btn_cancel"/>
+            android:layout_weight="1"
+            android:text="@string/popup_cancel" />
 
         <Button
+            android:id="@+id/popup_btn_update"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/popup_update"
-            android:id="@+id/popup_btn_update"/>
+            android:layout_weight="1"
+            android:text="@string/popup_update" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

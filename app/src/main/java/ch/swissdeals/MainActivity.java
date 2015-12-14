@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener, ProvidersListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -160,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
 
     public void refreshDealsList() {
         dealsSubscribedFragment.updateAdapter();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //nothing
     }
 }
 

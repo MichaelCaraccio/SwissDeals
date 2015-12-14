@@ -1,32 +1,20 @@
 package ch.swissdeals;
 
-import android.app.AlertDialog;
-import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 
-import java.util.List;
-
-import ch.swissdeals.database.controllers.DatabaseHelper;
-import ch.swissdeals.database.models.ModelProviders;
-
-
-public class PopUpProviders extends DialogFragment {
-    private DatabaseHelper db;
+public class PopUpProviders extends DialogFragment implements ProvidersListFragment.OnFragmentInteractionListener {
     private MainActivity parent;
-    private ListView mListView;
-    private List<ModelProviders> listproviders;
-    private Context ctx;
-    private DealsPopupAdapter mAdapter;
     private DealsPopupAdapter.ColorTheme colorTheme;
+    private ProvidersListFragment fragProviderList;
 
     public PopUpProviders() {
         this.colorTheme = DealsPopupAdapter.ColorTheme.BLUE;
@@ -42,44 +30,11 @@ public class PopUpProviders extends DialogFragment {
                              @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Set title for this dialog
-        if (getDialog() != null) {
-            getDialog().setTitle("Edit Providers");
-        }
-
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        getDialog().setTitle("Edit Providers");
 
         final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_pop_up_providers, container, false);
 
-        this.ctx = getActivity().getApplicationContext();
-
-        // Init the adapter
-        mListView = (ListView) v.findViewById(R.id.popup_content_deal_list);
-
-        // Get user's deals
-        db = new DatabaseHelper(ctx);
-        refreshProvidersList();
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ModelProviders pro = listproviders.get(position);
-
-                ImageView imageDownloadOrDelete = (ImageView) view.findViewById(R.id.popup_downloadOrDelete);  //replace with your ImageView id
-
-                if (pro.isUserSubscribed()) {
-                    pro.setUserSubscribed(false);
-                    db.unsubscribeProvider(pro.getProvider_id());
-                    imageDownloadOrDelete.setImageResource(R.mipmap.ic_download_white);
-                } else {
-                    pro.setUserSubscribed(true);
-                    db.subscribeProvider(pro.getProvider_id());
-                    imageDownloadOrDelete.setImageResource(R.mipmap.ic_remove);
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        this.fragProviderList = (ProvidersListFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.popup_list_providers_fragment);
 
         Button btn_cancel = (Button) v.findViewById(R.id.popup_btn_cancel);
         Button btn_update = (Button) v.findViewById(R.id.popup_btn_update);
@@ -99,26 +54,30 @@ public class PopUpProviders extends DialogFragment {
             }
         });
 
-        // TODO: explain magic number "1"
-        db.unsubscribeProvider(1);
-        builder.setTitle("Edit providers").setView(v);
-
         return v;
     }
 
-    public void updateListColorTheme(DealsPopupAdapter.ColorTheme colorTheme) {
-        this.colorTheme = colorTheme;
-        DealsPopupAdapter adapter = new DealsPopupAdapter(ctx, listproviders, this.colorTheme);
-        mListView.setAdapter(adapter);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        updateListColorTheme(this.colorTheme);
     }
 
-    public void refreshProvidersList() {
-        this.listproviders = db.getAllProviders();
+    public void updateListColorTheme(DealsPopupAdapter.ColorTheme colorTheme) {
+        this.fragProviderList.updateListColorTheme(colorTheme);
+    }
 
-        // Set the list in Adapter
-        mAdapter = new DealsPopupAdapter(ctx, listproviders, colorTheme);
-        mListView.setAdapter(mAdapter);
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // nothing
+    }
 
-        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Fragment fragment = (getFragmentManager().findFragmentById(R.id.popup_list_providers_fragment));
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.remove(fragment);
+        ft.commit();
     }
 }
