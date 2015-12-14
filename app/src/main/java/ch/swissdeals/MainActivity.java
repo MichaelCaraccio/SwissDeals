@@ -43,18 +43,6 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
 
         this.drawer = new SDDrawer(this, toolbar);
 
-        try {
-            ProviderManager providerManager = ProviderManager.getInstance();
-            providerManager.load(getApplicationContext());
-            providerManager.subscribe("qoqa.ch");
-            providerManager.subscribe("digitec.ch");
-            providerManager.subscribe("qooking.ch");
-            providerManager.subscribe("qsport.ch");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
