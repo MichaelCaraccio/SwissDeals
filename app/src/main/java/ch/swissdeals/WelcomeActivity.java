@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import ch.swissdeals.prefs.SwissDealsPrefs;
+import ch.swissdeals.service.DealDownloaderService;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,7 +33,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         btnGo.setOnClickListener(this);
 
         loadProviders();
-
     }
 
     @Override
@@ -44,6 +44,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         Toast.makeText(getApplicationContext(), this.getString(R.string.after_welcome), Toast.LENGTH_LONG).show();
 
+        startService(new Intent(this, DealDownloaderService.class));
         startNextActivity();
     }
 

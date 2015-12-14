@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,24 +25,33 @@ public class ProviderManager {
     private static final int RES_ID = R.raw.providers;
     private static final String TAG = ProviderManager.class.getSimpleName();
     private static final String JSON_ARRAY_NAME = "providers";
-    private static ProviderManager instance;
+    private static volatile ProviderManager instance;
+    private static Object lock = new Object();
 
     private JSONObject jsonProviders;
     private Set<ProviderParser> providerParsers;
     private DatabaseHelper dbHelper;
 
+    // source: http://stackoverflow.com/a/11165926
     public static ProviderManager getInstance() {
-        if (instance == null) {
-            instance = new ProviderManager();
+        ProviderManager mgr = instance;
+        if (mgr == null) {
+            synchronized (lock) {
+                mgr = instance;
+                if (mgr == null) {
+                    mgr = new ProviderManager();
+                    instance = mgr;
+                }
+            }
         }
-        return instance;
+        return mgr;
     }
 
     private ProviderManager() {
         this.providerParsers = new HashSet<>();
     }
 
-    public void load(Context context) throws JSONException {
+    public synchronized void load(Context context) throws JSONException {
         this.dbHelper = new DatabaseHelper(context);
         loadJSONFromAssets(context);
         buildProviders();
@@ -66,7 +76,7 @@ public class ProviderManager {
      * @throws NotLoadedException
      * @throws JSONException
      */
-    public ProviderParser getProviderParser(String providerID) throws NotLoadedException, JSONException {
+    public synchronized ProviderParser getProviderParser(String providerID) throws NotLoadedException, JSONException {
         if (this.jsonProviders == null) {
             throw new NotLoadedException();
         }
@@ -123,9 +133,10 @@ public class ProviderManager {
      * and remove the old/removed ones.
      * Keep as much as possible the user's subscribed providers
      */
-    private void upgradeDBProviders() {
+    private synchronized void upgradeDBProviders() {
         List<String> providersToKeep = new ArrayList<>();
 
+        Iterator<ProviderParser> itPParser = providerParsers.iterator();
         for (ProviderParser pParser : providerParsers) {
             String providerName = pParser.getProviderID();
             String displayName = pParser.getDisplayName();
