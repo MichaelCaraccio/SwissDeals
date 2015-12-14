@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
     android:layout_height="wrap_content" tools:context="ch.swissdeals.PopUpProviders"
-    android:orientation="vertical"
-    android:background="@color/colorWhite">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/popup_linearlayout_top"

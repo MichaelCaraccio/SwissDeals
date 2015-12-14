@@ -1,6 +1,7 @@
 package ch.swissdeals;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,12 @@ import ch.swissdeals.database.models.ModelProviders;
 public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
     private final Context context;
     private final List<ModelProviders> values;
+    private ColorTheme colorTheme;
+    private int mainColor;
+
+    public enum ColorTheme {
+        WHITE, BLUE
+    }
 
     private static class ViewHolderPopUp {
         private TextView provider_name;
@@ -29,6 +36,12 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
         super(context, R.layout.item_deal_popup, values);
         this.context = context;
         this.values = values;
+        setColorTheme(ColorTheme.BLUE);
+    }
+
+    public DealsPopupAdapter(Context context, List<ModelProviders> values, ColorTheme colorTheme) {
+        this(context, values);
+        setColorTheme(colorTheme);
     }
 
     @Override
@@ -36,7 +49,7 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
 
         ViewHolderPopUp mViewHolder;
 
-        if(convertView == null) {
+        if (convertView == null) {
 
             mViewHolder = new ViewHolderPopUp();
 
@@ -51,7 +64,7 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
             mViewHolder.download_icon = (ImageView) convertView.findViewById(R.id.popup_downloadOrDelete);
             convertView.setTag(mViewHolder);
 
-        }else{
+        } else {
             mViewHolder = (ViewHolderPopUp) convertView.getTag();
         }
 
@@ -61,14 +74,30 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
         Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(mViewHolder.favicon);
 
 
-        if(provider.isUserSubscribed()){
+        if (provider.isUserSubscribed()) {
             mViewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
-        }else{
+        } else {
             mViewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
+            mViewHolder.download_icon.setColorFilter(ContextCompat.getColor(context, this.mainColor));
         }
         mViewHolder.provider_name.setText(provider.getName());
+        mViewHolder.provider_name.setTextColor(ContextCompat.getColor(context, this.mainColor));
 
         return convertView;
+    }
+
+    public void setColorTheme(ColorTheme colorTheme) {
+        switch (colorTheme) {
+            case WHITE:
+                this.mainColor = R.color.colorWhite;
+                break;
+
+            case BLUE:
+                this.mainColor = R.color.mainColorBlue;
+                break;
+
+        }
+        notifyDataSetChanged();
     }
 }
 

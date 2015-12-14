@@ -28,6 +28,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         this.fragment = (PopUpProviders) getSupportFragmentManager().findFragmentById(R.id.welcome_deal_subscribed_fragment);
+        this.fragment.updateListColorTheme(DealsPopupAdapter.ColorTheme.WHITE);
 
         Button btnGo = (Button) findViewById(R.id.go_button);
         btnGo.setOnClickListener(this);

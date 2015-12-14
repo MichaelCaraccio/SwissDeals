@@ -20,19 +20,20 @@ import ch.swissdeals.database.models.ModelProviders;
 
 
 public class PopUpProviders extends DialogFragment {
-
     private DatabaseHelper db;
     private MainActivity parent;
     private ListView mListView;
     private List<ModelProviders> listproviders;
     private Context ctx;
     private DealsPopupAdapter mAdapter;
+    private DealsPopupAdapter.ColorTheme colorTheme;
 
     public PopUpProviders() {
-        // nothing, required by Fragment class
+        this.colorTheme = DealsPopupAdapter.ColorTheme.BLUE;
     }
 
     public PopUpProviders(MainActivity mainActivity) {
+        this();
         this.parent = mainActivity;
     }
 
@@ -105,11 +106,17 @@ public class PopUpProviders extends DialogFragment {
         return v;
     }
 
+    public void updateListColorTheme(DealsPopupAdapter.ColorTheme colorTheme) {
+        this.colorTheme = colorTheme;
+        DealsPopupAdapter adapter = new DealsPopupAdapter(ctx, listproviders, this.colorTheme);
+        mListView.setAdapter(adapter);
+    }
+
     public void refreshProvidersList() {
         this.listproviders = db.getAllProviders();
 
         // Set the list in Adapter
-        mAdapter = new DealsPopupAdapter(ctx, listproviders);
+        mAdapter = new DealsPopupAdapter(ctx, listproviders, colorTheme);
         mListView.setAdapter(mAdapter);
 
         mAdapter.notifyDataSetChanged();
