@@ -28,10 +28,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.swissdeals.MainActivity" />
         </activity>
-        <activity
-            android:name=".DummyActivity"
-            android:label="@string/action_bar_main_title"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".service.DealDownloaderService"
