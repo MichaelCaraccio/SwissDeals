@@ -112,7 +112,8 @@ public class DealDetailsActivity extends AppCompatActivity {
             crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
             crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
         }
-
+        if (deal.getPrice() == -1.0)
+            textCurrentPrice.setText("");
     }
 
     // Trick to get imageView height and width. onCreate method does not provide those properties
@@ -123,6 +124,19 @@ public class DealDetailsActivity extends AppCompatActivity {
 
         ImageView imagePrimaryImage = (ImageView) this.findViewById(R.id.detail_primaryImage);
         ImageView imageFavicon = (ImageView) this.findViewById(R.id.detail_favicon);
+
+        // Image view -> Fullscreen
+        imagePrimaryImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FullscreenActivity.class);
+                intent.putExtra("URL", deal.getImage_url());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                getApplicationContext().startActivity(intent);
+            }
+        });
 
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
 

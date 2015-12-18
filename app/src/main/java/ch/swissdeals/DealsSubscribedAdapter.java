@@ -128,6 +128,9 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
         if (deal.getDescription() != null)
             mViewHolder.dealDescription.setText(deal.getDescription().toUpperCase());
 
+        if (deal.getPrice() == -1.0)
+            mViewHolder.dealCurrentPrice.setText("");
+
         return convertView;
     }
 
@@ -143,6 +146,5 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
         c.drawLine(x, y, xend, yend, p);
         mViewHolder.crossOut.setImageBitmap(bmp);
     }
-
 }
 

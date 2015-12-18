@@ -49,4 +49,8 @@
     <string name="welcome_go_btn">Let\'s go !</string>
     <string name="welcome_description">Choose one or more deals providers you want to follow...</string>
     <string name="after_welcome">Deals are loading. Please wait a moment until the deals show up</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
