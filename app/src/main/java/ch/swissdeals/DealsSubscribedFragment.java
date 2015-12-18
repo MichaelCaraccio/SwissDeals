@@ -38,12 +38,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
      */
     private ListView mListView;
 
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
-    private DealsSubscribedAdapter mAdapter;
-
     // TODO: Rename and change types of parameters
     public static DealsSubscribedFragment newInstance(String param1, String param2) {
         DealsSubscribedFragment fragment = new DealsSubscribedFragment();
@@ -57,6 +51,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
      * fragment (e.g. upon screen orientation changes).
      */
     public DealsSubscribedFragment() {
+        // nothing
     }
 
     @Override
@@ -68,12 +63,14 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         updateAdapter();
     }
 
+    /**
+     * Update deals list from database
+     */
     public void updateAdapter() {
-        // Get user's deals
         DatabaseHelper db = new DatabaseHelper(ctx);
         listdeals = db.getAllDealsSubscribed();
 
-        mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
+        DealsSubscribedAdapter mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
 
         if(mListView != null)
             mListView.setAdapter(mAdapter);
@@ -88,8 +85,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         // Set the adapter
         mListView = (ListView) view.findViewById(R.id.content_deal_subscribed_list);
 
-        mListView.setAdapter(mAdapter);
-
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
@@ -100,13 +95,13 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        updateAdapter();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
 
     @Override
     public void onStart() {
