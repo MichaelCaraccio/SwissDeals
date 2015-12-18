@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
      */
     @Override
     public void onFragmentInteraction(int position) {
-        Intent dealFragment = new Intent(getApplicationContext(), DealDetailsActivity.class);
-        dealFragment.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
+        Intent dealDetailsActivity = new Intent(getApplicationContext(), DealDetailsActivity.class);
+        dealDetailsActivity.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
 
-        startActivity(dealFragment);
+        startActivity(dealDetailsActivity);
     }
 
     @Override
