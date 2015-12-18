@@ -3,11 +3,13 @@ package ch.swissdeals;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
      * The fragment's ListView/GridView.
      */
     private ListView mListView;
+    private LinearLayout mPlaceHolderView;
 
     // TODO: Rename and change types of parameters
     public static DealsSubscribedFragment newInstance(String param1, String param2) {
@@ -70,11 +73,27 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         DatabaseHelper db = new DatabaseHelper(ctx);
         listdeals = db.getAllDealsSubscribed();
 
+        boolean mustShowPlaceholder = listdeals.size() == 0;
+        showPlaceholder(mustShowPlaceholder);
+
+
         DealsSubscribedAdapter mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
 
-        if(mListView != null)
+        if (mListView != null)
             mListView.setAdapter(mAdapter);
 
+    }
+
+    private void showPlaceholder(boolean mustShowPlaceholder) {
+        // when the fragment start the view is null
+        if (mPlaceHolderView == null)
+            return;
+
+        if (mustShowPlaceholder) {
+            mPlaceHolderView.setVisibility(LinearLayout.VISIBLE);
+        } else {
+            mPlaceHolderView.setVisibility(LinearLayout.INVISIBLE);
+        }
     }
 
     @Override
@@ -84,6 +103,7 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
         // Set the adapter
         mListView = (ListView) view.findViewById(R.id.content_deal_subscribed_list);
+        mPlaceHolderView = (LinearLayout) view.findViewById(R.id.content_deal_subscribed_placeholder);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -138,6 +158,8 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
      */
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
+
+        Log.e(getClass().getSimpleName(), "YOLOOOOO");
 
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
