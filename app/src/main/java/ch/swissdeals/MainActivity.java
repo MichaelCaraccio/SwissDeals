@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
 
         dealsSubscribedFragment = new DealsSubscribedFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_container, dealsSubscribedFragment).commit();
+        ft.replace(R.id.fragment_container, dealsSubscribedFragment);
+        ft.addToBackStack(null);
+        ft.commit();
 
         /*
         listen to DealDownloaderService and refresh the deal list
