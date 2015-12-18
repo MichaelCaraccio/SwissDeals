@@ -80,7 +80,7 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
             mViewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
             mViewHolder.download_icon.setColorFilter(ContextCompat.getColor(context, this.mainColor));
         }
-        mViewHolder.provider_name.setText(provider.getName());
+        mViewHolder.provider_name.setText(provider.getDisplayName());
         mViewHolder.provider_name.setTextColor(ContextCompat.getColor(context, this.mainColor));
 
         return convertView;

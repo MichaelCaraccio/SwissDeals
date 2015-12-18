@@ -88,6 +88,7 @@ public class DealDetailsActivity extends AppCompatActivity {
         textCurrentPrice.setText(String.format("%.2f", deal.getPrice()));
         textTitle.setText(deal.getTitle().toUpperCase());
 
+        // Hide Description title and text if does not exist
         if(deal.getDescription()==null || deal.getDescription().isEmpty()){
             textTitleDealDescription.setVisibility(View.GONE);
             textLongDescription.setVisibility(View.GONE);
@@ -132,8 +133,7 @@ public class DealDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), FullscreenActivity.class);
                 intent.putExtra("URL", deal.getImage_url());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(intent.FLAG_ACTIVITY_NO_ANIMATION);
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 getApplicationContext().startActivity(intent);
             }
         });
