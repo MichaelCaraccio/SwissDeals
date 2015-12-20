@@ -1,8 +1,5 @@
 package ch.swissdeals.database.models;
 
-/**
- * Created by michaelcaraccio on 21/10/15.
- */
 public class ModelProviders {
 
     // ****************************************************************************
@@ -14,7 +11,6 @@ public class ModelProviders {
         this.provider_id = ModelProviders.DEFAULT_ID;
     }
 
-    // TODO ajouter display_name
     public ModelProviders(String name, String displayName, String url, String favicon_url, String category) {
         this.name = name;
         this.displayName = displayName;

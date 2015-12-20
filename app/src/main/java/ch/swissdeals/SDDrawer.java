@@ -17,6 +17,11 @@ import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelProviders;
 import ch.swissdeals.drawer.NavDrawerListAdapter;
 
+/**
+ * SwissDeals Drawer class
+ * <p/>
+ * Encapsulate the drawer into a class and keep the MainActivity clean
+ */
 public class SDDrawer {
 
     private DrawerLayout drawer;
@@ -44,20 +49,19 @@ public class SDDrawer {
         navMenuIcons.recycle();
 
         // setting the nav drawer list adapter
-        // TODO : Override method
         final NavDrawerListAdapter adapter = new NavDrawerListAdapter(mContext, listproviders);
         mDrawerList.setAdapter(adapter);
 
         drawer = (DrawerLayout) hostActivity.findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 hostActivity, drawer, toolbar, R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close){
+                R.string.navigation_drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                    hostActivity.refreshDealsList();
-                }
+                hostActivity.refreshDealsList();
+            }
         };
 
         drawer.setDrawerListener(toggle);
@@ -93,13 +97,13 @@ public class SDDrawer {
         });
     }
 
-    // Update text and subsription
-    public void updateSubscriptions(){
+    // Update text and subscription
+    public void updateSubscriptions() {
         String nbSub = db.countSubscriptions();
-        if(Integer.parseInt(nbSub) < 2){
-            nav_website_text.setText("website");
-        }else{
-            nav_website_text.setText("websites");
+        if (Integer.parseInt(nbSub) < 2) {
+            nav_website_text.setText(R.string.website);
+        } else {
+            nav_website_text.setText(R.string.websites);
         }
         countSubscription.setText(nbSub);
     }

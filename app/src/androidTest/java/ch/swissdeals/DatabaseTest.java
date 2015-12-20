@@ -83,9 +83,9 @@ public class DatabaseTest extends AndroidTestCase {
 
         // Providers
         // TODO doit être mis a jour
-        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "","","");
-        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "","","");
-        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "","","");
+        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "", "", "");
+        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "", "", "");
+        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "", "", "");
 
         db.createProvider(p1);
         db.createProvider(p2);
@@ -152,9 +152,9 @@ public class DatabaseTest extends AndroidTestCase {
 
         // Create providers
         // TODO doit être mis a jour
-        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "","","");
-        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "","","");
-        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "","","");
+        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "", "", "");
+        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "", "", "");
+        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "", "", "");
 
         db.createProvider(p1);
         db.createProvider(p2);
@@ -190,9 +190,9 @@ public class DatabaseTest extends AndroidTestCase {
 
         // Create providers
         // TODO doit être mis a jour
-        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "","","");
-        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "","","");
-        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "","","");
+        ModelProviders p1 = new ModelProviders("Qoqa.ch", "www.qoqa.ch", "", "", "");
+        ModelProviders p2 = new ModelProviders("Qoqa2.ch", "www.qoqa2.ch", "", "", "");
+        ModelProviders p3 = new ModelProviders("Qoqa3.ch", "www.qoqa3.ch", "", "", "");
 
         db.createProvider(p1);
         db.createProvider(p2);

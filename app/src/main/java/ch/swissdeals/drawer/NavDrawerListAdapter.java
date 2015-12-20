@@ -1,9 +1,5 @@
 package ch.swissdeals.drawer;
 
-/**
- * Created by michaelcaraccio on 12/10/15.
- */
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,44 +52,39 @@ public class NavDrawerListAdapter extends ArrayAdapter<ModelProviders> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderPopUp viewHolder;
 
-        ViewHolderPopUp mViewHolder;
-
-        if(convertView == null) {
-
-            mViewHolder = new ViewHolderPopUp();
+        if (convertView != null) {
+            viewHolder = (ViewHolderPopUp) convertView.getTag();
+        } else {
+            viewHolder = new ViewHolderPopUp();
 
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             convertView = inflater.inflate(R.layout.nav_drawer_list_item, parent, false);
-            mViewHolder.provider_name = (TextView) convertView.findViewById(R.id.nav_providerName);
-            mViewHolder.favicon = (ImageView) convertView.findViewById(R.id.nav_favicon);
-            mViewHolder.navCounter = (TextView) convertView.findViewById(R.id.nav_counter);
+            viewHolder.provider_name = (TextView) convertView.findViewById(R.id.nav_providerName);
+            viewHolder.favicon = (ImageView) convertView.findViewById(R.id.nav_favicon);
+            viewHolder.navCounter = (TextView) convertView.findViewById(R.id.nav_counter);
 
-            // TODO : if provider subscribed -> cross icon, else -> download icon
-            mViewHolder.download_icon = (ImageView) convertView.findViewById(R.id.nav_AddOrDelSub);
-            convertView.setTag(mViewHolder);
-
-        }else{
-            mViewHolder = (ViewHolderPopUp) convertView.getTag();
+            viewHolder.download_icon = (ImageView) convertView.findViewById(R.id.nav_AddOrDelSub);
+            convertView.setTag(viewHolder);
         }
 
         ModelProviders provider = navDrawerItems.get(position);
 
         // TODO : insert image placeholder
-        Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(mViewHolder.favicon);
+        Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(viewHolder.favicon);
 
-        if(provider.isUserSubscribed()){
-            mViewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
-        }else{
-            mViewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
+        if (provider.isUserSubscribed()) {
+            viewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
+        } else {
+            viewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
         }
-        mViewHolder.provider_name.setText(provider.getDisplayName());
+        viewHolder.provider_name.setText(provider.getDisplayName());
 
-        mViewHolder.navCounter.setText(db.countDealWithProviderID(provider.getProvider_id()));
+        viewHolder.navCounter.setText(db.countDealWithProviderID(provider.getProvider_id()));
 
         return convertView;
     }
-
 }

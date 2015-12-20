@@ -27,11 +27,22 @@ import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.database.models.ModelProviders;
 import ch.swissdeals.webcrapping.DealsWebscrapper;
 
+/**
+ * Service that download deals on their respective website and save them into the database
+ * This is a 2 step process, first it parses the html pages (webscraping) where the deals are shown
+ * into a JSON REST-like format.
+ * Then, it parses this JSON into ProviderModels/DealsProviders objects that we can persist into
+ * database.
+ * <p/>
+ * It works this way because the webscrapping part can be easily removed and moved into a PHP (or
+ * whatever) REST webservice backend who provide the same JSON REST-like format that we already use
+ */
 public class DealDownloaderService extends IntentService {
     private static final String TAG = DealDownloaderService.class.getSimpleName();
     private static final int MAX_RETRY = 5;
     //private static final long TIME_BETWEEN_TRIES = 5 * 60 * 1000; // 5 min
     private static final long TIME_BETWEEN_TRIES = 2000; // 2 sec
+    public static final String INTENT_NEW_DEALS_ADDED = "ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED";
     private final Handler handler;
     private DatabaseHelper dbHelper;
 
@@ -59,6 +70,7 @@ public class DealDownloaderService extends IntentService {
             }
 
             work();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,11 +84,12 @@ public class DealDownloaderService extends IntentService {
         ProviderManager providerManager = ProviderManager.getInstance();
         providerManager.load(ctx);
 
-        //TODO: getSubscribedProviders()
+        // STEP 1 - get user's all subscribed providers from database
         Iterable<ModelProviders> subscribedProviders = dbHelper.getSubscribedProviders();
         Log.d(TAG, "subscribed providers: " + subscribedProviders.toString());
         List<ModelDeals> webscrappedDeals = new ArrayList<>();
-        //TODO: foreach -> call DealWebscrapper
+
+        // STEP 2 - foreach provider, do the webscrapping
         Iterator<ModelProviders> subscribedProvidersIterator = subscribedProviders.iterator();
         while (subscribedProvidersIterator.hasNext()) {
 
@@ -88,23 +101,23 @@ public class DealDownloaderService extends IntentService {
 
             //TODO: parse JSON (rest-like) and create ModelDeals
             //FIXME: the deal's provider must be in the db
+            // STEP 3 - format the webscrapping data into a REST-like JSON
             parseDeals(jDeals, webscrappedDeals);
         }
 
-        /// TRANSACTION
-        //TODO: remove all existing deals (TRUNCATE)
+        // STEP 4 - remove all existing deals (TRUNCATE)
         dbHelper.deleteAllDeals();
-        //TODO: add freshly parsed deals (ModelDeals) to DB
+
+        // STEP 5 - add freshly webscrapped deals into database
         for (ModelDeals deal : webscrappedDeals) {
             Log.d(TAG, "createDeal: " + deal.toString());
             dbHelper.createDeal(deal);
         }
-        /// END TRANSACTION
 
 
         // we are forced to use a handler to show something on the screen because IntentService runs
         // in the background
-        //TODO: notify user for new deals ?
+        //TODO: notify (using a notification) user for new deals ?
         this.handler.post(new Runnable() {
             @Override
             public void run() {
@@ -112,19 +125,30 @@ public class DealDownloaderService extends IntentService {
             }
         });
 
-        Log.d(TAG, "Je suis couru !");
+        Log.d(TAG, "new deals have been webscrapped and added to database");
 
+        // STEP 6 - inform everyone who might be interested (MainActivity for example) that new deals have been downloaded
         broadcastResult();
-
-        Log.d(TAG, "persisted providers: " + dbHelper.getAllProviders().toString());
     }
 
+    /**
+     * Broadcast an Intent that inform that new deals have been downloaded
+     */
     private void broadcastResult() {
         Intent i = new Intent();
-        i.setAction("ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED");
+        i.setAction(INTENT_NEW_DEALS_ADDED);
         sendBroadcast(i);
     }
 
+    /**
+     * Parse a REST-like deal into a ModelDeals
+     *
+     * @param jDeals           the REST-like deal you want to parse
+     * @param webscrappedDeals a list where you want to collect the parsed deals, the main idea is
+     *                         to use the same list to collect all deals and then add it entirely
+     *                         into the database
+     * @throws JSONException
+     */
     private void parseDeals(JSONObject jDeals, List<ModelDeals> webscrappedDeals) throws JSONException {
         String providerName = jDeals.getString("providerName");
         final int providerID = dbHelper.getProviderIDFromName(providerName);
@@ -168,7 +192,7 @@ public class DealDownloaderService extends IntentService {
         try {
             value = j.getString(attr);
         } catch (JSONException e) {
-            Log.e(TAG, "getOrNullAttr: " + e.getMessage());
+            Log.d(TAG, "getOrNullAttr: " + e.getMessage());
         }
         return value;
     }

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,12 +20,11 @@ import ch.swissdeals.webcrapping.ProviderParserFactory;
 
 
 public class ProviderManager {
-
     private static final int RES_ID = R.raw.providers;
     private static final String TAG = ProviderManager.class.getSimpleName();
     private static final String JSON_ARRAY_NAME = "providers";
     private static volatile ProviderManager instance;
-    private static Object lock = new Object();
+    private static final Object lock = new Object();
 
     private JSONObject jsonProviders;
     private Set<ProviderParser> providerParsers;
@@ -69,10 +67,10 @@ public class ProviderManager {
     /**
      * Returns a ProviderParser from a providerID.
      * <p/>
-     * Result can be null !
+     * <b>Warning</b> Result can be null !
      *
-     * @param providerID
-     * @return
+     * @param providerID the provider id
+     * @return a ProviderParser
      * @throws NotLoadedException
      * @throws JSONException
      */
@@ -89,10 +87,6 @@ public class ProviderManager {
     }
 
     private void buildProviders() throws JSONException {
-        //TODO: move this in a load function, add every provider into a map
-        //TODO: and then in this function do: return mapProvider.get(providerName);
-        //TODO: and in getAvailableProviders() do: return mapProvider.values();
-        //TODO: warning ! we need both Provider and ProviderParser, store all in RAM ?
         JSONArray arrProviders = this.jsonProviders.getJSONArray("providers");
 
         for (int i = 0; i < arrProviders.length(); i++) {
@@ -125,7 +119,6 @@ public class ProviderManager {
                 }
             }
         }
-
     }
 
     /**
@@ -136,7 +129,6 @@ public class ProviderManager {
     private synchronized void upgradeDBProviders() {
         List<String> providersToKeep = new ArrayList<>();
 
-        Iterator<ProviderParser> itPParser = providerParsers.iterator();
         for (ProviderParser pParser : providerParsers) {
             String providerName = pParser.getProviderID();
             String displayName = pParser.getDisplayName();

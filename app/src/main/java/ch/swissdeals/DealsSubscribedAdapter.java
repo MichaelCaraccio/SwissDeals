@@ -3,8 +3,8 @@ package ch.swissdeals;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +21,6 @@ import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.database.models.ModelProviders;
 
 public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
-
-    public static final int CROSS_OUT_COLOR = Color.parseColor("#FF4640");
-
     private final Context context;
     private final List<ModelDeals> values;
     private final DatabaseHelper helper;
@@ -76,7 +73,6 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder viewHolder;
         ModelDeals deal = values.get(position);
         ModelProviders provider = helper.getProvider(deal.getFk_provider_id());
@@ -122,7 +118,7 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
 
         // If price not equals to -1 draw bitmap and display price
         if (deal.getOld_price() != -1.0) {
-            crossOutOldPrice(viewHolder, getBitmapWidth(), 25, 0, getBitmapHeight() - 25, CROSS_OUT_COLOR);
+            crossOutOldPrice(viewHolder, getBitmapWidth(), 25, 0, getBitmapHeight() - 25, ContextCompat.getColor(context, R.color.colorCrossout));
             viewHolder.dealOldPrice.setText(String.format("%.2f", deal.getOld_price()));
         } else {
             drawBlankBitmap(viewHolder);
@@ -145,7 +141,6 @@ public class DealsSubscribedAdapter extends ArrayAdapter<ModelDeals> {
     }
 
     private void crossOutOldPrice(ViewHolder mViewHolder, float x, float y, float xend, float yend, int color) {
-
         Bitmap bmp = Bitmap.createBitmap(getBitmapWidth(), getBitmapHeight(), Bitmap.Config.ARGB_8888);
         mViewHolder.crossOut.setImageBitmap(bmp);
         Canvas c = new Canvas(bmp);

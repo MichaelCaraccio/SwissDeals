@@ -1,8 +1,5 @@
 package ch.swissdeals.database.models;
 
-/**
- * Created by michaelcaraccio on 21/10/15.
- */
 public class ModelDeals {
 
 

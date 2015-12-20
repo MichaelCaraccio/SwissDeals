@@ -18,7 +18,6 @@ import ch.swissdeals.database.models.ModelProviders;
 public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
     private final Context context;
     private final List<ModelProviders> values;
-    private ColorTheme colorTheme;
     private int mainColor;
 
     public enum ColorTheme {
@@ -46,42 +45,38 @@ public class DealsPopupAdapter extends ArrayAdapter<ModelProviders> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderPopUp viewHolder;
 
-        ViewHolderPopUp mViewHolder;
-
-        if (convertView == null) {
-
-            mViewHolder = new ViewHolderPopUp();
+        if (convertView != null) {
+            viewHolder = (ViewHolderPopUp) convertView.getTag();
+        } else {
+            viewHolder = new ViewHolderPopUp();
 
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             convertView = inflater.inflate(R.layout.item_deal_popup, parent, false);
-            mViewHolder.provider_name = (TextView) convertView.findViewById(R.id.popup_item_providerName);
-            mViewHolder.favicon = (ImageView) convertView.findViewById(R.id.popup_item_image);
+            viewHolder.provider_name = (TextView) convertView.findViewById(R.id.popup_item_providerName);
+            viewHolder.favicon = (ImageView) convertView.findViewById(R.id.popup_item_image);
 
-            // TODO : if provider subscribed -> cross icon, else -> download icon
-            mViewHolder.download_icon = (ImageView) convertView.findViewById(R.id.popup_downloadOrDelete);
-            convertView.setTag(mViewHolder);
-
-        } else {
-            mViewHolder = (ViewHolderPopUp) convertView.getTag();
+            viewHolder.download_icon = (ImageView) convertView.findViewById(R.id.popup_downloadOrDelete);
+            convertView.setTag(viewHolder);
         }
 
         ModelProviders provider = values.get(position);
 
         // TODO : insert image placeholder
-        Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(mViewHolder.favicon);
+        Picasso.with(context).load(provider.getFavicon_url()).resize(40, 40).into(viewHolder.favicon);
 
 
         if (provider.isUserSubscribed()) {
-            mViewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
+            viewHolder.download_icon.setImageResource(R.mipmap.ic_remove);
         } else {
-            mViewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
-            mViewHolder.download_icon.setColorFilter(ContextCompat.getColor(context, this.mainColor));
+            viewHolder.download_icon.setImageResource(R.mipmap.ic_download_white);
+            viewHolder.download_icon.setColorFilter(ContextCompat.getColor(context, this.mainColor));
         }
-        mViewHolder.provider_name.setText(provider.getDisplayName());
-        mViewHolder.provider_name.setTextColor(ContextCompat.getColor(context, this.mainColor));
+        viewHolder.provider_name.setText(provider.getDisplayName());
+        viewHolder.provider_name.setTextColor(ContextCompat.getColor(context, this.mainColor));
 
         return convertView;
     }

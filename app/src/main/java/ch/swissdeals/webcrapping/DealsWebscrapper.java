@@ -26,7 +26,7 @@ import ch.swissdeals.ProviderManager;
 
 /**
  * The purpose of this class is to extract deals from the provider's website
- * using webscraping and basically regexes.
+ * using webscraping and mainly regexes.
  * <p/>
  * It returns a JSON REST-like object in order to mimic the behaviour of a web service.
  * This way it can easily be replaced if we choose to rely on a webservice
@@ -67,13 +67,13 @@ public class DealsWebscrapper {
                 dealAreaRegex = "<html*[^<]*([\\s\\S]+?)<\\/html>";
 
             Pattern pattern = Pattern.compile(dealAreaRegex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-            Matcher matcher = pattern.matcher(htmlBody);
+            Matcher areaMatcher = pattern.matcher(htmlBody);
 
-            while (matcher.find()) {
+            while (areaMatcher.find()) {
                 JSONObject jDeal = new JSONObject();
 
                 // group 1 because group 0 returns all the matched pattern
-                String htmlChunk = matcher.group(1);
+                String htmlChunk = areaMatcher.group(1);
 
                 jDeal.put("title", webscrape(d.getTitleRegex(), htmlChunk));
                 jDeal.put("description", webscrape(d.getDescriptionRegex(), htmlChunk));
@@ -81,9 +81,6 @@ public class DealsWebscrapper {
                 jDeal.put("price", tryParsePrice(webscrape(d.getPriceRegex(), htmlChunk)));
                 jDeal.put("oldprice", tryParsePrice(webscrape(d.getOldPriceRegex(), htmlChunk)));
                 jDeal.put("link", getRealLink(d.getLinkRegex(), htmlChunk));
-
-                //TODO: use this regex to make groups (digitec only): <article*[^<]*([\s\S]+?)<\/article>
-                // new: <article class="product dday"*[^<]*([\s\S]+?)<\/article>
 
                 jDealsArray.put(jDeal);
             }
@@ -131,7 +128,6 @@ public class DealsWebscrapper {
 
         Response response = client.newCall(request).execute();
         htmlBody = response.body().string();
-//        Log.d(TAG, "raw: " + htmlBody);
     }
 
     private String webscrape(String regex, String htmlChunk) {
@@ -162,7 +158,6 @@ public class DealsWebscrapper {
      * Beautify ugly regex with multiple method
      * like unescape html entities
      *
-     * @param text
      * @return cleaned text
      */
     private String beautifyRegex(String text) {
@@ -181,25 +176,5 @@ public class DealsWebscrapper {
             Log.w(TAG, e.toString());
             return -1;
         }
-    }
-
-    /**
-     * Assuming that all deals in the HTML page are structured the same way,
-     * we can iterate over the regex title to retrieve all the today deals
-     *
-     * @return the number of deals found today for the given provider
-     */
-    private int getTodayAvailableDeals() {
-        DealParser d = this.providerParser.iterator().next();
-
-        String titleRegex = d.getTitleRegex();
-        Pattern pattern = Pattern.compile(titleRegex, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-        Matcher matcher = pattern.matcher(htmlBody);
-
-        int count = 0;
-        while (matcher.find())
-            count++;
-
-        return count;
     }
 }

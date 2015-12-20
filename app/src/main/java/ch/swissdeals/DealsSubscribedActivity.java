@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class DealsSubscribedActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener{
+public class DealsSubscribedActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,6 @@ public class DealsSubscribedActivity extends AppCompatActivity implements DealsS
 
     @Override
     public void onFragmentInteraction(int position) {
-
         Intent i = new Intent(this, DealDetailsActivity.class);
         i.putExtra(DealsSubscribedFragment.POSITION_MAIN_LIST, position);
         startActivity(i);

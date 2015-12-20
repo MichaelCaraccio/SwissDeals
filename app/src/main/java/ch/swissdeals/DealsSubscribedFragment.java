@@ -3,7 +3,6 @@ package ch.swissdeals;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,38 +10,23 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelDeals;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
 public class DealsSubscribedFragment extends Fragment implements AbsListView.OnItemClickListener {
-
     private List<ModelDeals> listdeals;
     public static final String POSITION_MAIN_LIST = "DealsSubscribedFragment.list.position";
     private Context ctx;
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * The fragment's ListView/GridView.
-     */
     private ListView mListView;
     private LinearLayout mPlaceHolderView;
 
-    // TODO: Rename and change types of parameters
-    public static DealsSubscribedFragment newInstance(String param1, String param2) {
+    public static DealsSubscribedFragment newInstance() {
         DealsSubscribedFragment fragment = new DealsSubscribedFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -59,7 +43,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         ctx = getActivity().getApplicationContext();
@@ -76,12 +59,10 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
         boolean mustShowPlaceholder = listdeals.size() == 0;
         showPlaceholder(mustShowPlaceholder);
 
-
         DealsSubscribedAdapter mAdapter = new DealsSubscribedAdapter(ctx, listdeals);
 
         if (mListView != null)
             mListView.setAdapter(mAdapter);
-
     }
 
     private void showPlaceholder(boolean mustShowPlaceholder) {
@@ -147,22 +128,6 @@ public class DealsSubscribedFragment extends Fragment implements AbsListView.OnI
             // fragment is attached to one) that an item has been selected.
 
             mListener.onFragmentInteraction(listdeals.get(position).getDeal_id());
-
-        }
-    }
-
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
-
-        Log.e(getClass().getSimpleName(), "YOLOOOOO");
-
-        if (emptyView instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
         }
     }
 

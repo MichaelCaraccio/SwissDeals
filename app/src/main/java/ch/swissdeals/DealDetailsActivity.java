@@ -3,10 +3,10 @@ package ch.swissdeals;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -26,7 +26,7 @@ public class DealDetailsActivity extends AppCompatActivity {
     private int bitmapWidth;
     private int bitmapHeight;
     private int crossOutThickness;
-    ImageView crossOut;
+    private ImageView crossOut;
 
     public int getBitmapWidth() {
         return bitmapWidth;
@@ -89,11 +89,10 @@ public class DealDetailsActivity extends AppCompatActivity {
         textTitle.setText(deal.getTitle().toUpperCase());
 
         // Hide Description title and text if does not exist
-        if(deal.getDescription()==null || deal.getDescription().isEmpty()){
+        if (deal.getDescription() == null || deal.getDescription().isEmpty()) {
             textTitleDealDescription.setVisibility(View.GONE);
             textLongDescription.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             textTitleDealDescription.setText(R.string.DealDetailsTitleDealDescription);
             textLongDescription.setText(deal.getDescription());
         }
@@ -111,16 +110,15 @@ public class DealDetailsActivity extends AppCompatActivity {
         if (deal.getOld_price() != -1.0) {
             textOldPrice.setText(String.format("%.2f", deal.getOld_price()));
             crossOut = (ImageView) this.findViewById(R.id.detail_crossOut);
-            crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, Color.parseColor("#FF4640"));
+            crossOutOldPrice(getBitmapWidth(), 40, 0, getBitmapHeight() - 40, ContextCompat.getColor(this.getApplicationContext(), R.color.colorCrossout));
         }
         if (deal.getPrice() == -1.0)
             textCurrentPrice.setText("");
     }
 
     // Trick to get imageView height and width. onCreate method does not provide those properties
-    // because they are not instanciated yet.
+    // because they are not instantiated yet.
     public void onWindowFocusChanged(boolean hasFocus) {
-
         super.onWindowFocusChanged(hasFocus);
 
         ImageView imagePrimaryImage = (ImageView) this.findViewById(R.id.detail_primaryImage);
@@ -150,7 +148,6 @@ public class DealDetailsActivity extends AppCompatActivity {
     }
 
     private void crossOutOldPrice(float x, float y, float xend, float yend, int color) {
-
         Bitmap bmp = Bitmap.createBitmap(getBitmapWidth(), getBitmapHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
         crossOut.draw(c);

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,20 +13,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+
+import ch.swissdeals.service.DealDownloaderService;
 
 public class MainActivity extends AppCompatActivity implements DealsSubscribedFragment.OnFragmentInteractionListener, ProvidersListFragment.OnFragmentInteractionListener {
-
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    //private ActionBarDrawerToggle mDrawerToggle;
-
-    // nav drawer title
-    private CharSequence mDrawerTitle;
 
     // used to store app title
     private CharSequence mTitle;
-    private TextView menuTitle;
     private SDDrawer drawer;
     private BroadcastReceiver newDealsReceiver;
     private DealsSubscribedFragment dealsSubscribedFragment;
@@ -45,12 +38,8 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-
                 DialogFragment newFragment = new PopUpProviders(MainActivity.this);
                 newFragment.show(getSupportFragmentManager(), "popup");
-
             }
         });
 
@@ -65,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
         when the service has inserted new deals in database
          */
         IntentFilter filter = new IntentFilter();
-        filter.addAction("ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED");
+        filter.addAction(DealDownloaderService.INTENT_NEW_DEALS_ADDED);
 
         newDealsReceiver = new BroadcastReceiver() {
             @Override
@@ -76,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
         registerReceiver(newDealsReceiver, filter);
     }
 
-    /**
-     * @param position
-     */
     @Override
     public void onFragmentInteraction(int position) {
         Intent dealDetailsActivity = new Intent(getApplicationContext(), DealDetailsActivity.class);
@@ -99,20 +85,6 @@ public class MainActivity extends AppCompatActivity implements DealsSubscribedFr
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        //mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        //mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

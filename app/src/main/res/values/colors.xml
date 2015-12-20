@@ -13,6 +13,7 @@
     <color name="backgroundCellColor">#FAFBFC</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorCrossout">#FF4640</color>
     <color name="blue_pressed">@android:color/holo_blue_dark</color>
     <color name="blue_normal">@android:color/holo_blue_light</color>
     <color name="holo_blue_dark">#ff0099cc</color>

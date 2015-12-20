@@ -17,17 +17,7 @@ import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelProviders;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProvidersListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProvidersListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProvidersListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String KEY_COLOR_THEME = "colorTheme";
 
     private OnFragmentInteractionListener mListener;
@@ -42,15 +32,6 @@ public class ProvidersListFragment extends Fragment {
         this.colorTheme = DealsPopupAdapter.ColorTheme.BLUE;
     }
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param colorTheme
-     * @return A new instance of fragment ProvidersListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProvidersListFragment newInstance(DealsPopupAdapter.ColorTheme colorTheme) {
         ProvidersListFragment fragment = new ProvidersListFragment();
         Bundle args = new Bundle();
@@ -111,7 +92,6 @@ public class ProvidersListFragment extends Fragment {
     we can use this observer pattern
     Rename method, update argument and hook method into UI event
      */
-    // TODO:
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

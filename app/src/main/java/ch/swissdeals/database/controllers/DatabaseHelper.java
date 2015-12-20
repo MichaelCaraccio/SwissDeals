@@ -16,7 +16,7 @@ import ch.swissdeals.database.models.ModelProviders;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Logcat tag
-    private static final String LOG = DatabaseHelper.class.getSimpleName();
+    private static final String TAG = DatabaseHelper.class.getSimpleName();
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -135,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String selectQuery = String.format("SELECT * FROM %s WHERE %s = %d", TABLE_DEALS, KEY_DEALS_ID, deal_id);
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public synchronized List<ModelDeals> getAllDeals() {
         String selectQuery = "SELECT * FROM " + TABLE_DEALS;
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -167,9 +167,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return List of ModelDeals
      */
     public synchronized List<ModelDeals> getAllDealsSubscribed() {
-        String selectQuery = "SELECT * FROM " + TABLE_DEALS + " WHERE "+TABLE_DEALS+"."+KEY_DEALS_FK_PROVIDER_ID+" IN(SELECT " + TABLE_PROVIDERS+ "."+ KEY_PROVIDERS_ID + " FROM "+TABLE_PROVIDERS+" WHERE " +TABLE_PROVIDERS+"."+KEY_PROVIDERS_SUBSCRIBED+ " == 1)";
+        String selectQuery = "SELECT * FROM " + TABLE_DEALS + " WHERE " + TABLE_DEALS + "." + KEY_DEALS_FK_PROVIDER_ID + " IN(SELECT " + TABLE_PROVIDERS + "." + KEY_PROVIDERS_ID + " FROM " + TABLE_PROVIDERS + " WHERE " + TABLE_PROVIDERS + "." + KEY_PROVIDERS_SUBSCRIBED + " == 1)";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -195,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String selectQuery = "SELECT * FROM " + TABLE_DEALS + " WHERE "
                     + KEY_DEALS_FK_PROVIDER_ID + " = " + provider_id;
 
-            Log.e(LOG, selectQuery);
+            Log.d(TAG, selectQuery);
 
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery(selectQuery, null);
@@ -296,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_ID + " = " + '"' + provider_id + '"';
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         //TODO: check if c.getCount() > 0 ?
@@ -312,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_SUBSCRIBED + " != 0 ";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         return getModelProviders(c);
@@ -324,7 +324,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_SUBSCRIBED + " = 0 ";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         return getModelProviders(c);
@@ -360,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT " + KEY_PROVIDERS_ID + " FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_NAME + " = '" + provider_name + "'";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -376,7 +376,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT count(*) FROM " + TABLE_DEALS + " WHERE "
                 + KEY_DEALS_FK_PROVIDER_ID + " = '" + providerId + "'";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -392,7 +392,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT count(*) FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_SUBSCRIBED + " = '1'";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -402,15 +402,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c != null ? String.valueOf(c.getInt(0)) : "";
     }
 
-    // TODO Compter le nombre de d'inscription
-
     public synchronized String getProviderNameFromID(int provider_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT " + KEY_PROVIDERS_DISPLAY_NAME + " FROM " + TABLE_PROVIDERS + " WHERE "
                 + KEY_PROVIDERS_ID + " = '" + provider_id + "'";
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -428,7 +426,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public synchronized List<ModelProviders> getAllProviders() {
         String selectQuery = "SELECT * FROM " + TABLE_PROVIDERS;
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -465,12 +463,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public synchronized long createOrUpdateProvider(ModelProviders provider) {
         int id = getProviderIDFromName(provider.getName());
-        Log.d(LOG, "providerID: " + id);
+        Log.d(TAG, "providerID: " + id);
         if (id == ModelProviders.DEFAULT_ID) {
-            Log.d(LOG, "create");
+            Log.d(TAG, "create");
             return createProvider(provider);
         } else {
-            Log.d(LOG, "update");
+            Log.d(TAG, "update");
             return updateProvider(provider);
         }
     }
@@ -630,7 +628,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT " + KEY_PROVIDERS_NAME + " FROM " + TABLE_PROVIDERS;
 
-        Log.e(LOG, selectQuery);
+        Log.d(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);

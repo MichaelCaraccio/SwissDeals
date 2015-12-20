@@ -64,13 +64,13 @@ public class FullscreenActivity extends AppCompatActivity {
         String urlString;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                urlString= null;
+            if (extras == null) {
+                urlString = null;
             } else {
-                urlString= extras.getString("URL");
+                urlString = extras.getString("URL");
             }
         } else {
-            urlString= (String) savedInstanceState.getSerializable("URL");
+            urlString = (String) savedInstanceState.getSerializable("URL");
         }
 
         ImageView img = (ImageView) findViewById(R.id.fullscreen_url_image);

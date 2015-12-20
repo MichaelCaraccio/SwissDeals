@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Allow DealDownloaderService to start on boot.
+ * This class will also trigger the service to start every X minutes.
+ */
 public class DeviceBootReceiver extends BroadcastReceiver {
 
     private static final String TAG = DeviceBootReceiver.class.getSimpleName();
