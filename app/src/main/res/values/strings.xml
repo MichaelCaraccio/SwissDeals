@@ -54,4 +54,5 @@
     <string name="no_deals_found_placeholder">No deals found.\nTry to add some providers :-)</string>
     <string name="website">website</string>
     <string name="websites">websites</string>
+    <string name="notification_content">New deals have been added. Go check it out !</string>
 </resources>

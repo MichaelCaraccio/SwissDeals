@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Allow DealDownloaderService to start on boot.
@@ -27,9 +26,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             int interval = 8000;
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
-            Toast.makeText(context, "Alarm Set", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Alarm set");
-
+            Log.d(TAG, getClass().getSimpleName() + " set on boot");
         }
     }
 }

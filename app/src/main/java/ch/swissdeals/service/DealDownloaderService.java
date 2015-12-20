@@ -1,13 +1,14 @@
 package ch.swissdeals.service;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,13 +16,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import ch.swissdeals.ProviderManager;
+import ch.swissdeals.R;
 import ch.swissdeals.database.controllers.DatabaseHelper;
 import ch.swissdeals.database.models.ModelDeals;
 import ch.swissdeals.database.models.ModelProviders;
@@ -43,6 +44,7 @@ public class DealDownloaderService extends IntentService {
     //private static final long TIME_BETWEEN_TRIES = 5 * 60 * 1000; // 5 min
     private static final long TIME_BETWEEN_TRIES = 2000; // 2 sec
     public static final String INTENT_NEW_DEALS_ADDED = "ch.swissdeals.service.DealDownloaderService.NEW_DEALS_ADDED";
+    private static final int NOTIFICATION_ID = 666;
     private final Handler handler;
     private DatabaseHelper dbHelper;
 
@@ -121,7 +123,7 @@ public class DealDownloaderService extends IntentService {
         this.handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ctx, new Date().toString() + " - Je suis couru !", Toast.LENGTH_SHORT).show();
+                showNotification();
             }
         });
 
@@ -129,6 +131,19 @@ public class DealDownloaderService extends IntentService {
 
         // STEP 6 - inform everyone who might be interested (MainActivity for example) that new deals have been downloaded
         broadcastResult();
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.notification_content));
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
     /**
